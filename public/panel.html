@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel del Dueno</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0f172a; color: #e2e8f0; margin: 0; padding: 20px;
+      max-width: 1000px; margin: 0 auto;
+    }
+    h1 { font-size: 1.6rem; margin: 4px 0; }
+    .sub { color: #94a3b8; margin: 0 0 20px; font-size: .9rem; }
+
+    .tarjetas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+    .kpi { flex: 1; min-width: 130px; background: #1e293b; border-radius: 14px; padding: 16px 18px; }
+    .kpi .num { font-size: 2rem; font-weight: 800; }
+    .kpi .lbl { color: #94a3b8; font-size: .85rem; }
+    .kpi.alerta .num { color: #f87171; }
+    .kpi.activos .num { color: #60a5fa; }
+    .kpi.fin .num { color: #4ade80; }
+
+    table { width: 100%; border-collapse: collapse; background: #1e293b; border-radius: 14px; overflow: hidden; }
+    th, td { text-align: left; padding: 12px 14px; font-size: .9rem; }
+    th { background: #334155; color: #cbd5e1; font-weight: 600; }
+    tr { border-top: 1px solid #334155; }
+    tr.fila-alerta { background: #422006; }
+
+    .pill { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: .8rem; font-weight: 600; }
+    .pill.estado { background: #1e3a8a; color: #bfdbfe; }
+    .pill.estado.fin { background: #064e3b; color: #bbf7d0; }
+    .badge-alerta { background: #b91c1c; color: white; padding: 4px 10px; border-radius: 999px;
+                    font-size: .78rem; font-weight: 700; }
+    .ok-chip { color: #64748b; font-size: .82rem; }
+
+    .actualizado { color: #64748b; font-size: .8rem; margin-top: 14px; text-align: right; }
+    a.codlink { color: #93c5fd; text-decoration: none; }
+    .nav { margin-top: 20px; text-align: center; }
+    .nav a { color: #60a5fa; text-decoration: none; font-size: .85rem; }
+    @media (max-width: 640px) {
+      .ocultar-movil { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <h1>📊 Panel del Dueno</h1>
+  <p class="sub">Vista general de todos los viajes. Se actualiza automaticamente.</p>
+
+  <div class="tarjetas" id="kpis"></div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Codigo</th>
+        <th>Cliente</th>
+        <th class="ocultar-movil">Ruta</th>
+        <th class="ocultar-movil">Conductor</th>
+        <th>Estado</th>
+        <th>Sin cambios</th>
+        <th>Alerta</th>
+      </tr>
+    </thead>
+    <tbody id="cuerpo">
+      <tr><td colspan="7" style="text-align:center; color:#64748b;">Cargando...</td></tr>
+    </tbody>
+  </table>
+
+  <p class="actualizado" id="actualizado"></p>
+  <div class="nav"><a href="/">← Volver al inicio</a></div>
+
+  <script>
+    const kpis = document.getElementById('kpis');
+    const cuerpo = document.getElementById('cuerpo');
+    const actualizado = document.getElementById('actualizado');
+
+    function tiempoTexto(min) {
+      if (min < 1) return 'recien';
+      if (min < 60) return min + ' min';
+      const h = Math.floor(min / 60), m = min % 60;
+      return h + 'h' + (m ? ' ' + m + 'm' : '');
+    }
+
+    async function cargar() {
+      try {
+        const r = await fetch('/api/panel');
+        const data = await r.json();
+        pintar(data);
+        actualizado.textContent = 'Actualizado: ' + new Date().toLocaleTimeString('es') +
+          ' · alerta tras ' + data.umbral_min + ' min sin cambios';
+      } catch (e) {
+        actualizado.textContent = 'No se pudo conectar con el servidor.';
+      }
+    }
+
+    function pintar(data) {
+      kpis.innerHTML = `
+        <div class="kpi activos"><div class="num">${data.activos}</div><div class="lbl">Viajes activos</div></div>
+        <div class="kpi fin"><div class="num">${data.finalizados}</div><div class="lbl">Finalizados</div></div>
+        <div class="kpi alerta"><div class="num">${data.en_alerta}</div><div class="lbl">En alerta</div></div>`;
+
+      // Primero los que tienen alerta.
+      const orden = [...data.viajes].sort((a, b) => (b.alerta - a.alerta) || (b.minutos_inactivo - a.minutos_inactivo));
+
+      cuerpo.innerHTML = orden.map(v => `
+        <tr class="${v.alerta ? 'fila-alerta' : ''}">
+          <td><a class="codlink" href="/cliente.html?codigo=${v.codigo}" target="_blank">${v.codigo}</a></td>
+          <td>${v.cliente}</td>
+          <td class="ocultar-movil">${v.origen} → ${v.destino}</td>
+          <td class="ocultar-movil">${v.conductor}</td>
+          <td><span class="pill estado ${v.finalizado ? 'fin' : ''}">${v.estado_actual}</span></td>
+          <td>${v.finalizado ? '—' : tiempoTexto(v.minutos_inactivo)}</td>
+          <td>${v.alerta ? '<span class="badge-alerta">⚠️ Atascado</span>' : '<span class="ok-chip">✓ OK</span>'}</td>
+        </tr>`).join('');
+    }
+
+    cargar();
+    setInterval(cargar, 10000); // refresco automatico cada 10 segundos
+  </script>
+</body>
+</html>

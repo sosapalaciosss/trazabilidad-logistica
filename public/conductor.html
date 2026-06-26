@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vista del Conductor</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0f172a; color: #e2e8f0; margin: 0;
+      padding: 16px; max-width: 520px; margin: 0 auto;
+    }
+    h1 { font-size: 1.4rem; margin: 8px 0 4px; }
+    .sub { color: #94a3b8; margin: 0 0 20px; font-size: .9rem; }
+
+    label { display: block; font-size: .85rem; color: #94a3b8; margin: 14px 0 6px; }
+    select, textarea {
+      width: 100%; padding: 14px; font-size: 1rem; border-radius: 12px;
+      border: 1px solid #334155; background: #1e293b; color: #e2e8f0;
+    }
+    textarea { resize: vertical; min-height: 60px; }
+
+    .card { background: #1e293b; border-radius: 16px; padding: 20px; margin-top: 16px; }
+    .ruta { font-size: 1.1rem; font-weight: 600; margin: 0 0 4px; }
+    .cliente { color: #94a3b8; margin: 0 0 14px; }
+
+    .estado-actual {
+      display: inline-block; padding: 8px 16px; border-radius: 999px;
+      background: #1d4ed8; color: white; font-weight: 600; font-size: .95rem;
+    }
+
+    .progreso { display: flex; flex-direction: column; gap: 8px; margin: 18px 0; }
+    .paso { display: flex; align-items: center; gap: 10px; font-size: .95rem; color: #64748b; }
+    .paso.hecho { color: #4ade80; }
+    .paso.actual { color: #facc15; font-weight: 700; }
+    .punto { width: 18px; height: 18px; border-radius: 50%; background: #334155; flex-shrink: 0;
+             display: flex; align-items: center; justify-content: center; font-size: .7rem; }
+    .paso.hecho .punto { background: #4ade80; color: #064e3b; }
+    .paso.actual .punto { background: #facc15; color: #422006; }
+
+    .boton-grande {
+      width: 100%; padding: 22px; font-size: 1.25rem; font-weight: 700;
+      border: none; border-radius: 16px; background: #16a34a; color: white;
+      margin-top: 16px; cursor: pointer; transition: transform .05s;
+    }
+    .boton-grande:active { transform: scale(0.98); }
+    .boton-grande:disabled { background: #334155; color: #64748b; cursor: not-allowed; }
+
+    .completado {
+      text-align: center; padding: 20px; background: #064e3b; border-radius: 16px;
+      margin-top: 16px; color: #4ade80; font-weight: 700; font-size: 1.1rem;
+    }
+    .ubic { margin-top: 18px; border-top: 1px solid #334155; padding-top: 16px; }
+    .boton-ubic {
+      width: 100%; padding: 16px; font-size: 1.05rem; font-weight: 700; border: none;
+      border-radius: 14px; background: #2563eb; color: white; cursor: pointer;
+    }
+    .boton-ubic.activo { background: #b91c1c; }
+    .boton-ubic:active { transform: scale(0.98); }
+    .ubic-estado { margin-top: 10px; font-size: .85rem; color: #94a3b8; text-align: center; }
+    .aviso { margin-top: 14px; padding: 12px 16px; border-radius: 12px; font-size: .95rem; display: none; }
+    .aviso.ok { background: #064e3b; color: #4ade80; display: block; }
+    .aviso.error { background: #7f1d1d; color: #fecaca; display: block; }
+    .nav { margin-top: 24px; text-align: center; }
+    .nav a { color: #60a5fa; text-decoration: none; font-size: .85rem; }
+  </style>
+</head>
+<body>
+  <h1>🚛 Vista del Conductor</h1>
+  <p class="sub">Selecciona tu viaje y registra el avance.</p>
+
+  <label for="selector">Mi viaje</label>
+  <select id="selector"><option>Cargando viajes...</option></select>
+
+  <div id="detalle"></div>
+
+  <div class="nav"><a href="/">← Volver al inicio</a></div>
+
+  <script>
+    const selector = document.getElementById('selector');
+    const detalle = document.getElementById('detalle');
+    let ESTADOS = [];
+
+    async function cargarEstados() {
+      const r = await fetch('/api/estados');
+      ESTADOS = (await r.json()).estados;
+    }
+
+    async function cargarLista() {
+      const r = await fetch('/api/viajes');
+      const { viajes } = await r.json();
+      selector.innerHTML = '<option value="">— Elige un viaje —</option>' +
+        viajes.map(v => `<option value="${v.id}">${v.codigo} · ${v.cliente}</option>`).join('');
+    }
+
+    async function mostrarViaje(id) {
+      if (!id) { detalle.innerHTML = ''; return; }
+      const r = await fetch('/api/viajes/' + id);
+      const { viaje } = await r.json();
+
+      const posActual = ESTADOS.indexOf(viaje.estado_actual);
+      const siguiente = ESTADOS[posActual + 1];
+
+      const pasos = ESTADOS.map((e, i) => {
+        const clase = i < posActual ? 'hecho' : i === posActual ? 'actual' : '';
+        const icono = i < posActual ? '✓' : i === posActual ? '•' : '';
+        return `<div class="paso ${clase}"><span class="punto">${icono}</span> ${e}</div>`;
+      }).join('');
+
+      let accion;
+      if (siguiente) {
+        accion = `
+          <label for="nota">Nota (opcional)</label>
+          <textarea id="nota" placeholder="Ej: 200 cajas cargadas"></textarea>
+          <button class="boton-grande" id="btnAvanzar">
+            Registrar: ${siguiente}
+          </button>`;
+      } else {
+        accion = `<div class="completado">✅ Viaje finalizado</div>`;
+      }
+
+      detalle.innerHTML = `
+        <div class="card">
+          <p class="ruta">${viaje.origen} → ${viaje.destino}</p>
+          <p class="cliente">Cliente: ${viaje.cliente} · Conductor: ${viaje.conductor}</p>
+          <span class="estado-actual">Estado actual: ${viaje.estado_actual}</span>
+          <div class="progreso">${pasos}</div>
+          ${accion}
+          <div class="aviso" id="aviso"></div>
+          <div class="ubic">
+            <button class="boton-ubic" id="btnUbic">📍 Compartir mi ubicacion</button>
+            <div class="ubic-estado" id="ubicEstado"></div>
+          </div>
+        </div>`;
+
+      if (siguiente) {
+        document.getElementById('btnAvanzar').onclick = () => registrar(id, siguiente);
+      }
+      configurarUbicacion(id);
+    }
+
+    // --- Compartir ubicacion en vivo ---
+    let watchId = null;       // id del rastreo del navegador
+    let viajeUbic = null;     // viaje al que se le envia ubicacion
+
+    function detenerUbicacion() {
+      if (watchId !== null) { navigator.geolocation.clearWatch(watchId); watchId = null; }
+      viajeUbic = null;
+    }
+
+    function configurarUbicacion(id) {
+      // Al cambiar de viaje, detenemos cualquier rastreo anterior.
+      detenerUbicacion();
+      const btn = document.getElementById('btnUbic');
+      const estado = document.getElementById('ubicEstado');
+      if (!btn) return;
+
+      if (!('geolocation' in navigator)) {
+        btn.disabled = true;
+        estado.textContent = 'Este dispositivo no permite ubicacion.';
+        return;
+      }
+
+      btn.onclick = () => {
+        if (watchId !== null) {           // ya esta compartiendo -> detener
+          detenerUbicacion();
+          btn.classList.remove('activo');
+          btn.textContent = '📍 Compartir mi ubicacion';
+          estado.textContent = 'Ubicacion detenida.';
+          return;
+        }
+        viajeUbic = id;
+        estado.textContent = 'Pidiendo permiso de ubicacion...';
+        watchId = navigator.geolocation.watchPosition(
+          (pos) => enviarUbicacion(pos, estado),
+          (err) => {
+            estado.textContent = '⚠️ No se pudo obtener ubicacion: ' + err.message;
+            detenerUbicacion();
+            btn.classList.remove('activo');
+            btn.textContent = '📍 Compartir mi ubicacion';
+          },
+          { enableHighAccuracy: true, maximumAge: 5000, timeout: 15000 }
+        );
+        btn.classList.add('activo');
+        btn.textContent = '⏹ Detener ubicacion';
+      };
+    }
+
+    async function enviarUbicacion(pos, estado) {
+      const lat = pos.coords.latitude, lng = pos.coords.longitude;
+      try {
+        await fetch('/api/viajes/' + viajeUbic + '/ubicacion', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ lat, lng }),
+        });
+        const hora = new Date().toLocaleTimeString('es');
+        estado.textContent = '🟢 Compartiendo ubicacion · ultima: ' + hora;
+      } catch (e) {
+        estado.textContent = '⚠️ Sin conexion con el servidor.';
+      }
+    }
+
+    async function registrar(id, estado) {
+      const btn = document.getElementById('btnAvanzar');
+      const aviso = document.getElementById('aviso');
+      const nota = document.getElementById('nota').value;
+      btn.disabled = true; btn.textContent = 'Guardando...';
+      try {
+        const r = await fetch('/api/viajes/' + id + '/eventos', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ estado, nota }),
+        });
+        const data = await r.json();
+        if (!r.ok) throw new Error(data.error || 'Error al guardar');
+        aviso.className = 'aviso ok';
+        aviso.textContent = '✅ Evento registrado: ' + estado;
+        setTimeout(() => mostrarViaje(id), 800);
+      } catch (e) {
+        aviso.className = 'aviso error';
+        aviso.textContent = '❌ ' + e.message;
+        btn.disabled = false; btn.textContent = 'Registrar: ' + estado;
+      }
+    }
+
+    selector.addEventListener('change', () => mostrarViaje(selector.value));
+
+    (async () => { await cargarEstados(); await cargarLista(); })();
+  </script>
+</body>
+</html>
