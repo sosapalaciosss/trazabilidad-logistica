@@ -3,79 +3,85 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vista del Conductor</title>
+  <title>Vista del Conductor — Transporte D Todo</title>
+  <link rel="stylesheet" href="/marca.css" />
   <style>
-    * { box-sizing: border-box; }
-    body {
-      font-family: system-ui, -apple-system, sans-serif;
-      background: #0f172a; color: #e2e8f0; margin: 0;
-      padding: 16px; max-width: 520px; margin: 0 auto;
-    }
-    h1 { font-size: 1.4rem; margin: 8px 0 4px; }
-    .sub { color: #94a3b8; margin: 0 0 20px; font-size: .9rem; }
+    .wrap { max-width: 560px; margin: 0 auto; padding: 24px 20px 48px; }
+    .encabezado { display: flex; align-items: center; gap: 12px; margin: 8px 0 6px; }
+    .encabezado h1 { font-size: 1.4rem; margin: 0; }
+    .sub { color: var(--tinta-2); margin: 0 0 18px; font-size: .92rem; }
 
-    label { display: block; font-size: .85rem; color: #94a3b8; margin: 14px 0 6px; }
+    label { display: block; font-size: .85rem; color: var(--tinta-2); font-weight: 600; margin: 16px 0 6px; }
     select, textarea {
-      width: 100%; padding: 14px; font-size: 1rem; border-radius: 12px;
-      border: 1px solid #334155; background: #1e293b; color: #e2e8f0;
+      width: 100%; padding: 14px; font-size: 1rem; border-radius: var(--radio-sm);
+      border: 1.5px solid var(--borde); background: #fff; color: var(--tinta); font-family: var(--fuente);
     }
+    select:focus, textarea:focus { outline: none; border-color: var(--azul); box-shadow: 0 0 0 4px rgba(27,110,243,.12); }
     textarea { resize: vertical; min-height: 60px; }
 
-    .card { background: #1e293b; border-radius: 16px; padding: 20px; margin-top: 16px; }
-    .ruta { font-size: 1.1rem; font-weight: 600; margin: 0 0 4px; }
-    .cliente { color: #94a3b8; margin: 0 0 14px; }
+    .card { background: var(--superficie); border: 1px solid var(--borde);
+      border-radius: var(--radio); padding: 22px; margin-top: 16px; box-shadow: var(--sombra); }
+    .ruta { font-size: 1.15rem; font-weight: 700; margin: 0 0 4px; }
+    .cliente { color: var(--tinta-2); margin: 0 0 14px; font-size: .92rem; }
 
-    .estado-actual {
-      display: inline-block; padding: 8px 16px; border-radius: 999px;
-      background: #1d4ed8; color: white; font-weight: 600; font-size: .95rem;
-    }
+    .estado-actual { display: inline-block; padding: 8px 16px; border-radius: 999px;
+      background: #dbeafe; color: #1d4ed8; font-weight: 700; font-size: .95rem; }
 
-    .progreso { display: flex; flex-direction: column; gap: 8px; margin: 18px 0; }
-    .paso { display: flex; align-items: center; gap: 10px; font-size: .95rem; color: #64748b; }
-    .paso.hecho { color: #4ade80; }
-    .paso.actual { color: #facc15; font-weight: 700; }
-    .punto { width: 18px; height: 18px; border-radius: 50%; background: #334155; flex-shrink: 0;
-             display: flex; align-items: center; justify-content: center; font-size: .7rem; }
-    .paso.hecho .punto { background: #4ade80; color: #064e3b; }
-    .paso.actual .punto { background: #facc15; color: #422006; }
+    .progreso { display: flex; flex-direction: column; gap: 10px; margin: 20px 0; }
+    .paso { display: flex; align-items: center; gap: 10px; font-size: .95rem; color: var(--tenue); }
+    .paso.hecho { color: var(--ok); }
+    .paso.actual { color: var(--azul); font-weight: 700; }
+    .punto { width: 20px; height: 20px; border-radius: 50%; background: var(--borde); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; }
+    .punto svg { width: 11px; height: 11px; stroke: #fff; fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+    .paso.hecho .punto { background: var(--ok); }
+    .paso.actual .punto { background: var(--azul); }
+    .paso.actual .punto::after { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #fff; }
 
     .boton-grande {
-      width: 100%; padding: 22px; font-size: 1.25rem; font-weight: 700;
-      border: none; border-radius: 16px; background: #16a34a; color: white;
-      margin-top: 16px; cursor: pointer; transition: transform .05s;
+      width: 100%; padding: 20px; font-size: 1.2rem; font-weight: 700; font-family: var(--fuente);
+      border: none; border-radius: var(--radio); background: var(--ok); color: #fff;
+      margin-top: 16px; cursor: pointer; transition: transform .06s, filter .15s;
+      box-shadow: 0 8px 20px rgba(22,163,74,.28);
     }
     .boton-grande:active { transform: scale(0.98); }
-    .boton-grande:disabled { background: #334155; color: #64748b; cursor: not-allowed; }
+    .boton-grande:disabled { background: var(--borde); color: var(--tenue); cursor: not-allowed; box-shadow: none; }
 
-    .completado {
-      text-align: center; padding: 20px; background: #064e3b; border-radius: 16px;
-      margin-top: 16px; color: #4ade80; font-weight: 700; font-size: 1.1rem;
-    }
-    .ubic { margin-top: 18px; border-top: 1px solid #334155; padding-top: 16px; }
+    .completado { text-align: center; padding: 20px; background: var(--ok-bg); border-radius: var(--radio);
+      margin-top: 16px; color: #15803d; font-weight: 700; font-size: 1.1rem; }
+
+    .ubic { margin-top: 18px; border-top: 1px solid var(--borde); padding-top: 16px; }
     .boton-ubic {
-      width: 100%; padding: 16px; font-size: 1.05rem; font-weight: 700; border: none;
-      border-radius: 14px; background: #2563eb; color: white; cursor: pointer;
+      width: 100%; padding: 16px; font-size: 1.05rem; font-weight: 700; font-family: var(--fuente);
+      border: none; border-radius: var(--radio-sm); background: var(--azul); color: #fff; cursor: pointer;
     }
-    .boton-ubic.activo { background: #b91c1c; }
+    .boton-ubic.activo { background: var(--alerta); }
     .boton-ubic:active { transform: scale(0.98); }
-    .ubic-estado { margin-top: 10px; font-size: .85rem; color: #94a3b8; text-align: center; }
-    .aviso { margin-top: 14px; padding: 12px 16px; border-radius: 12px; font-size: .95rem; display: none; }
-    .aviso.ok { background: #064e3b; color: #4ade80; display: block; }
-    .aviso.error { background: #7f1d1d; color: #fecaca; display: block; }
+    .ubic-estado { margin-top: 10px; font-size: .85rem; color: var(--tinta-2); text-align: center; }
+
+    .aviso { margin-top: 14px; padding: 12px 16px; border-radius: var(--radio-sm); font-size: .95rem; display: none; }
+    .aviso.ok { background: var(--ok-bg); color: #15803d; display: block; }
+    .aviso.error { background: var(--alerta-bg); color: #b91c1c; display: block; }
+
     .nav { margin-top: 24px; text-align: center; }
-    .nav a { color: #60a5fa; text-decoration: none; font-size: .85rem; }
   </style>
 </head>
 <body>
-  <h1>🚛 Vista del Conductor</h1>
-  <p class="sub">Selecciona tu viaje y registra el avance.</p>
+  <div class="wrap">
+    <a class="volver" href="/">← Volver al inicio</a>
+    <div class="encabezado">
+      <span class="marca-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      </span>
+      <h1>Vista del Conductor</h1>
+    </div>
+    <p class="sub">Selecciona tu viaje y registra el avance.</p>
 
-  <label for="selector">Mi viaje</label>
-  <select id="selector"><option>Cargando viajes...</option></select>
+    <label for="selector">Mi viaje</label>
+    <select id="selector"><option>Cargando viajes...</option></select>
 
-  <div id="detalle"></div>
-
-  <div class="nav"><a href="/">← Volver al inicio</a></div>
+    <div id="detalle"></div>
+  </div>
 
   <script>
     const selector = document.getElementById('selector');
@@ -102,9 +108,10 @@
       const posActual = ESTADOS.indexOf(viaje.estado_actual);
       const siguiente = ESTADOS[posActual + 1];
 
+      const SVG_CHECK = '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>';
       const pasos = ESTADOS.map((e, i) => {
         const clase = i < posActual ? 'hecho' : i === posActual ? 'actual' : '';
-        const icono = i < posActual ? '✓' : i === posActual ? '•' : '';
+        const icono = i < posActual ? SVG_CHECK : '';
         return `<div class="paso ${clase}"><span class="punto">${icono}</span> ${e}</div>`;
       }).join('');
 
@@ -117,7 +124,7 @@
             Registrar: ${siguiente}
           </button>`;
       } else {
-        accion = `<div class="completado">✅ Viaje finalizado</div>`;
+        accion = `<div class="completado"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px;"><polyline points="20 6 9 17 4 12"/></svg>Viaje finalizado</div>`;
       }
 
       detalle.innerHTML = `
@@ -129,7 +136,7 @@
           ${accion}
           <div class="aviso" id="aviso"></div>
           <div class="ubic">
-            <button class="boton-ubic" id="btnUbic">📍 Compartir mi ubicacion</button>
+            <button class="boton-ubic" id="btnUbic">Compartir mi ubicación</button>
             <div class="ubic-estado" id="ubicEstado"></div>
           </div>
         </div>`;
@@ -141,8 +148,8 @@
     }
 
     // --- Compartir ubicacion en vivo ---
-    let watchId = null;       // id del rastreo del navegador
-    let viajeUbic = null;     // viaje al que se le envia ubicacion
+    let watchId = null;
+    let viajeUbic = null;
 
     function detenerUbicacion() {
       if (watchId !== null) { navigator.geolocation.clearWatch(watchId); watchId = null; }
@@ -150,7 +157,6 @@
     }
 
     function configurarUbicacion(id) {
-      // Al cambiar de viaje, detenemos cualquier rastreo anterior.
       detenerUbicacion();
       const btn = document.getElementById('btnUbic');
       const estado = document.getElementById('ubicEstado');
@@ -158,32 +164,32 @@
 
       if (!('geolocation' in navigator)) {
         btn.disabled = true;
-        estado.textContent = 'Este dispositivo no permite ubicacion.';
+        estado.textContent = 'Este dispositivo no permite ubicación.';
         return;
       }
 
       btn.onclick = () => {
-        if (watchId !== null) {           // ya esta compartiendo -> detener
+        if (watchId !== null) {
           detenerUbicacion();
           btn.classList.remove('activo');
-          btn.textContent = '📍 Compartir mi ubicacion';
-          estado.textContent = 'Ubicacion detenida.';
+          btn.textContent = 'Compartir mi ubicación';
+          estado.textContent = 'Ubicación detenida.';
           return;
         }
         viajeUbic = id;
-        estado.textContent = 'Pidiendo permiso de ubicacion...';
+        estado.textContent = 'Pidiendo permiso de ubicación...';
         watchId = navigator.geolocation.watchPosition(
           (pos) => enviarUbicacion(pos, estado),
           (err) => {
-            estado.textContent = '⚠️ No se pudo obtener ubicacion: ' + err.message;
+            estado.textContent = 'No se pudo obtener ubicación: ' + err.message;
             detenerUbicacion();
             btn.classList.remove('activo');
-            btn.textContent = '📍 Compartir mi ubicacion';
+            btn.textContent = 'Compartir mi ubicación';
           },
           { enableHighAccuracy: true, maximumAge: 5000, timeout: 15000 }
         );
         btn.classList.add('activo');
-        btn.textContent = '⏹ Detener ubicacion';
+        btn.textContent = 'Detener ubicación';
       };
     }
 
@@ -196,9 +202,9 @@
           body: JSON.stringify({ lat, lng }),
         });
         const hora = new Date().toLocaleTimeString('es');
-        estado.textContent = '🟢 Compartiendo ubicacion · ultima: ' + hora;
+        estado.innerHTML = '<span class="dot-vivo"></span>Compartiendo ubicación · última: ' + hora;
       } catch (e) {
-        estado.textContent = '⚠️ Sin conexion con el servidor.';
+        estado.textContent = 'Sin conexión con el servidor.';
       }
     }
 
@@ -216,11 +222,11 @@
         const data = await r.json();
         if (!r.ok) throw new Error(data.error || 'Error al guardar');
         aviso.className = 'aviso ok';
-        aviso.textContent = '✅ Evento registrado: ' + estado;
+        aviso.textContent = 'Evento registrado: ' + estado;
         setTimeout(() => mostrarViaje(id), 800);
       } catch (e) {
         aviso.className = 'aviso error';
-        aviso.textContent = '❌ ' + e.message;
+        aviso.textContent = e.message;
         btn.disabled = false; btn.textContent = 'Registrar: ' + estado;
       }
     }

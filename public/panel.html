@@ -3,72 +3,95 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Panel del Dueno</title>
+  <title>Panel del Dueño — Transporte D Todo</title>
+  <link rel="stylesheet" href="/marca.css" />
   <style>
-    * { box-sizing: border-box; }
-    body {
-      font-family: system-ui, -apple-system, sans-serif;
-      background: #0f172a; color: #e2e8f0; margin: 0; padding: 20px;
-      max-width: 1000px; margin: 0 auto;
-    }
-    h1 { font-size: 1.6rem; margin: 4px 0; }
-    .sub { color: #94a3b8; margin: 0 0 20px; font-size: .9rem; }
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 24px 20px 48px; }
+    .encabezado { display: flex; align-items: center; gap: 12px; margin: 8px 0 6px; }
+    .encabezado h1 { font-size: 1.6rem; margin: 0; }
+    .sub { color: var(--tinta-2); margin: 0 0 22px; font-size: .92rem; }
 
-    .tarjetas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
-    .kpi { flex: 1; min-width: 130px; background: #1e293b; border-radius: 14px; padding: 16px 18px; }
-    .kpi .num { font-size: 2rem; font-weight: 800; }
-    .kpi .lbl { color: #94a3b8; font-size: .85rem; }
-    .kpi.alerta .num { color: #f87171; }
-    .kpi.activos .num { color: #60a5fa; }
-    .kpi.fin .num { color: #4ade80; }
+    .tarjetas { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 22px; }
+    .kpi { flex: 1; min-width: 150px; background: var(--superficie); border: 1px solid var(--borde);
+      border-radius: var(--radio); padding: 18px 20px; box-shadow: var(--sombra); }
+    .kpi .num { font-size: 2.1rem; font-weight: 800; line-height: 1; }
+    .kpi .lbl { color: var(--tinta-2); font-size: .85rem; margin-top: 6px; }
+    .kpi.activos .num { color: var(--azul); }
+    .kpi.fin .num { color: var(--ok); }
+    .kpi.alerta .num { color: var(--alerta); }
 
-    table { width: 100%; border-collapse: collapse; background: #1e293b; border-radius: 14px; overflow: hidden; }
-    th, td { text-align: left; padding: 12px 14px; font-size: .9rem; }
-    th { background: #334155; color: #cbd5e1; font-weight: 600; }
-    tr { border-top: 1px solid #334155; }
-    tr.fila-alerta { background: #422006; }
+    .tabla-wrap { background: var(--superficie); border: 1px solid var(--borde);
+      border-radius: var(--radio); overflow: hidden; box-shadow: var(--sombra); }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 13px 16px; font-size: .9rem; }
+    th { background: #f1f5f9; color: var(--tinta-2); font-weight: 700; text-transform: uppercase;
+      font-size: .74rem; letter-spacing: .04em; }
+    tr { border-top: 1px solid var(--borde); }
+    tbody tr:first-child { border-top: none; }
+    tr.fila-alerta { background: #fff7ed; }
 
-    .pill { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: .8rem; font-weight: 600; }
-    .pill.estado { background: #1e3a8a; color: #bfdbfe; }
-    .pill.estado.fin { background: #064e3b; color: #bbf7d0; }
-    .badge-alerta { background: #b91c1c; color: white; padding: 4px 10px; border-radius: 999px;
-                    font-size: .78rem; font-weight: 700; }
-    .ok-chip { color: #64748b; font-size: .82rem; }
+    .pill { display: inline-block; padding: 5px 12px; border-radius: 999px; font-size: .8rem; font-weight: 700; }
+    .pill.estado { background: #dbeafe; color: #1d4ed8; }
+    .pill.estado.fin { background: var(--ok-bg); color: #15803d; }
+    .badge-alerta { background: var(--alerta); color: #fff; padding: 5px 12px; border-radius: 999px;
+      font-size: .78rem; font-weight: 700; }
+    .ok-chip { color: var(--tenue); font-size: .82rem; font-weight: 600; }
 
-    .actualizado { color: #64748b; font-size: .8rem; margin-top: 14px; text-align: right; }
-    a.codlink { color: #93c5fd; text-decoration: none; }
-    .nav { margin-top: 20px; text-align: center; }
-    .nav a { color: #60a5fa; text-decoration: none; font-size: .85rem; }
-    @media (max-width: 640px) {
-      .ocultar-movil { display: none; }
+    .actualizado { color: var(--tenue); font-size: .8rem; margin-top: 14px; text-align: right; }
+    a.codlink { color: var(--azul); text-decoration: none; font-weight: 700; }
+    a.codlink:hover { text-decoration: underline; }
+
+    @media (max-width: 680px) {
+      .tabla-wrap { background: transparent; border: none; box-shadow: none; }
+      table { background: transparent; }
+      thead { display: none; }
+      tbody, tr, td { display: block; width: 100%; }
+      tr { background: var(--superficie); border: 1px solid var(--borde); border-radius: var(--radio);
+        margin-bottom: 12px; padding: 6px 0; box-shadow: var(--sombra); }
+      tr.fila-alerta { background: #fff7ed; }
+      td { display: flex; justify-content: space-between; align-items: center; gap: 12px;
+        padding: 9px 16px; border: none; }
+      td::before { content: attr(data-label); color: var(--tenue); font-size: .78rem; font-weight: 700;
+        text-transform: uppercase; letter-spacing: .03em; }
+      td.cod { font-size: 1.15rem; font-weight: 700; padding-top: 12px; }
+      td.cod::before { display: none; }
     }
   </style>
 </head>
 <body>
-  <h1>📊 Panel del Dueno</h1>
-  <p class="sub">Vista general de todos los viajes. Se actualiza automaticamente.</p>
+  <div class="wrap">
+    <a class="volver" href="/">← Volver al inicio</a>
+    <div class="encabezado">
+      <span class="marca-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      </span>
+      <h1>Panel del Dueño</h1>
+    </div>
+    <p class="sub">Vista general de todos los viajes. Se actualiza automáticamente.</p>
 
-  <div class="tarjetas" id="kpis"></div>
+    <div class="tarjetas" id="kpis"></div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Codigo</th>
-        <th>Cliente</th>
-        <th class="ocultar-movil">Ruta</th>
-        <th class="ocultar-movil">Conductor</th>
-        <th>Estado</th>
-        <th>Sin cambios</th>
-        <th>Alerta</th>
-      </tr>
-    </thead>
-    <tbody id="cuerpo">
-      <tr><td colspan="7" style="text-align:center; color:#64748b;">Cargando...</td></tr>
-    </tbody>
-  </table>
+    <div class="tabla-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Cliente</th>
+            <th>Ruta</th>
+            <th>Conductor</th>
+            <th>Estado</th>
+            <th>Sin cambios</th>
+            <th>Alerta</th>
+          </tr>
+        </thead>
+        <tbody id="cuerpo">
+          <tr><td colspan="7" style="text-align:center; color:var(--tenue);">Cargando...</td></tr>
+        </tbody>
+      </table>
+    </div>
 
-  <p class="actualizado" id="actualizado"></p>
-  <div class="nav"><a href="/">← Volver al inicio</a></div>
+    <p class="actualizado" id="actualizado"></p>
+  </div>
 
   <script>
     const kpis = document.getElementById('kpis');
@@ -76,7 +99,7 @@
     const actualizado = document.getElementById('actualizado');
 
     function tiempoTexto(min) {
-      if (min < 1) return 'recien';
+      if (min < 1) return 'recién';
       if (min < 60) return min + ' min';
       const h = Math.floor(min / 60), m = min % 60;
       return h + 'h' + (m ? ' ' + m + 'm' : '');
@@ -100,23 +123,22 @@
         <div class="kpi fin"><div class="num">${data.finalizados}</div><div class="lbl">Finalizados</div></div>
         <div class="kpi alerta"><div class="num">${data.en_alerta}</div><div class="lbl">En alerta</div></div>`;
 
-      // Primero los que tienen alerta.
       const orden = [...data.viajes].sort((a, b) => (b.alerta - a.alerta) || (b.minutos_inactivo - a.minutos_inactivo));
 
       cuerpo.innerHTML = orden.map(v => `
         <tr class="${v.alerta ? 'fila-alerta' : ''}">
-          <td><a class="codlink" href="/cliente.html?codigo=${v.codigo}" target="_blank">${v.codigo}</a></td>
-          <td>${v.cliente}</td>
-          <td class="ocultar-movil">${v.origen} → ${v.destino}</td>
-          <td class="ocultar-movil">${v.conductor}</td>
-          <td><span class="pill estado ${v.finalizado ? 'fin' : ''}">${v.estado_actual}</span></td>
-          <td>${v.finalizado ? '—' : tiempoTexto(v.minutos_inactivo)}</td>
-          <td>${v.alerta ? '<span class="badge-alerta">⚠️ Atascado</span>' : '<span class="ok-chip">✓ OK</span>'}</td>
+          <td class="cod"><a class="codlink" href="/cliente.html?codigo=${v.codigo}" target="_blank">${v.codigo}</a></td>
+          <td data-label="Cliente">${v.cliente}</td>
+          <td data-label="Ruta">${v.origen} → ${v.destino}</td>
+          <td data-label="Conductor">${v.conductor}</td>
+          <td data-label="Estado"><span class="pill estado ${v.finalizado ? 'fin' : ''}">${v.estado_actual}</span></td>
+          <td data-label="Sin cambios">${v.finalizado ? '—' : tiempoTexto(v.minutos_inactivo)}</td>
+          <td data-label="Alerta">${v.alerta ? '<span class="badge-alerta">Atascado</span>' : '<span class="ok-chip">OK</span>'}</td>
         </tr>`).join('');
     }
 
     cargar();
-    setInterval(cargar, 10000); // refresco automatico cada 10 segundos
+    setInterval(cargar, 10000);
   </script>
 </body>
 </html>
