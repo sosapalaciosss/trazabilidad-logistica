@@ -45,6 +45,19 @@ function init() {
       creado_en TEXT NOT NULL DEFAULT (datetime('now')),
       FOREIGN KEY (trip_id) REFERENCES trips(id) ON DELETE CASCADE
     );
+
+    -- Solicitudes de cotizacion que llegan desde la landing page.
+    CREATE TABLE IF NOT EXISTS leads (
+      id        INTEGER PRIMARY KEY AUTOINCREMENT,
+      nombre    TEXT NOT NULL,
+      telefono  TEXT NOT NULL,
+      origen    TEXT,
+      destino   TEXT,
+      carga     TEXT,
+      mensaje   TEXT,
+      atendido  INTEGER NOT NULL DEFAULT 0,
+      creado_en TEXT NOT NULL DEFAULT (datetime('now'))
+    );
   `);
 
   // Migracion: columnas de ubicacion (se agregan solo si faltan).

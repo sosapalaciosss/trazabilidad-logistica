@@ -325,6 +325,34 @@
     </svg>
 
     <div style="position:relative;z-index:1;max-width:1080px;margin:0 auto;">
+
+      <!-- Formulario de cotizacion (Fase 1: captar clientes) -->
+      <div id="cotiza" style="scroll-margin-top:88px;background:#fff;border:1px solid #e6eef8;border-radius:22px;box-shadow:0 22px 48px -30px rgba(20,50,90,0.3);padding:clamp(24px,4vw,38px);margin-bottom:44px;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(24px,4vw,44px);align-items:start;">
+          <div>
+            <div style="font-size:12px;font-weight:700;letter-spacing:3px;color:#1877d6;margin-bottom:10px;">COTIZA EN LÍNEA</div>
+            <h2 style="margin:0 0 12px;font-size:clamp(24px,3vw,34px);font-weight:800;color:#0f2a47;letter-spacing:-0.5px;">Solicita tu cotización</h2>
+            <p style="margin:0 0 20px;font-size:16px;line-height:1.6;color:#51637a;">Déjanos los datos de tu envío y te contactamos con una cotización sin compromiso. Si prefieres, escríbenos directo por WhatsApp.</p>
+            <a href="https://wa.me/50375937814?text=Hola%2C%20quiero%20cotizar%20un%20env%C3%ADo%20con%20Transporte%20D%20Todo." target="_blank" rel="noopener" style="text-decoration:none;display:inline-flex;align-items:center;gap:10px;background:#25D366;color:#fff;font-weight:600;font-size:15px;padding:13px 22px;border-radius:12px;box-shadow:0 12px 26px -10px rgba(37,211,102,0.6);">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.513 5.26l-.999 3.648 3.985-1.607zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+              Escríbenos por WhatsApp
+            </a>
+          </div>
+
+          <form id="formCotiza" autocomplete="on">
+            <input id="c_nombre" placeholder="Tu nombre o empresa *" style="width:100%;padding:13px 15px;font-size:15px;font-family:'Poppins',sans-serif;border:1.5px solid #d7e2ef;border-radius:11px;color:#0f2a47;margin-bottom:12px;background:#fff;" />
+            <input id="c_telefono" placeholder="Teléfono / WhatsApp *" style="width:100%;padding:13px 15px;font-size:15px;font-family:'Poppins',sans-serif;border:1.5px solid #d7e2ef;border-radius:11px;color:#0f2a47;margin-bottom:12px;background:#fff;" />
+            <div style="display:flex;gap:12px;flex-wrap:wrap;">
+              <input id="c_origen" placeholder="Origen (de dónde)" style="flex:1;min-width:130px;padding:13px 15px;font-size:15px;font-family:'Poppins',sans-serif;border:1.5px solid #d7e2ef;border-radius:11px;color:#0f2a47;margin-bottom:12px;background:#fff;" />
+              <input id="c_destino" placeholder="Destino (a dónde)" style="flex:1;min-width:130px;padding:13px 15px;font-size:15px;font-family:'Poppins',sans-serif;border:1.5px solid #d7e2ef;border-radius:11px;color:#0f2a47;margin-bottom:12px;background:#fff;" />
+            </div>
+            <textarea id="c_carga" rows="2" placeholder="¿Qué vas a enviar? (opcional)" style="width:100%;padding:13px 15px;font-size:15px;font-family:'Poppins',sans-serif;border:1.5px solid #d7e2ef;border-radius:11px;color:#0f2a47;margin-bottom:14px;background:#fff;resize:vertical;"></textarea>
+            <button type="submit" class="cta-blue" style="width:100%;border:none;cursor:pointer;font-family:'Poppins',sans-serif;font-weight:600;font-size:16px;padding:15px;border-radius:12px;box-shadow:0 12px 26px -10px rgba(24,119,214,0.5);">Enviar solicitud</button>
+            <div id="cotizaAviso" style="display:none;margin-top:14px;padding:14px 16px;border-radius:11px;font-size:14.5px;font-weight:500;"></div>
+          </form>
+        </div>
+      </div>
+
       <div style="display:flex;flex-wrap:wrap;gap:40px;justify-content:space-between;align-items:flex-start;padding-bottom:42px;border-bottom:1px solid #e3ebf5;">
 
         <div style="max-width:320px;">
@@ -368,6 +396,12 @@
 
 </div>
 
+<!-- Boton flotante de WhatsApp -->
+<a href="https://wa.me/50375937814?text=Hola%2C%20quiero%20cotizar%20un%20env%C3%ADo%20con%20Transporte%20D%20Todo." target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp"
+   style="position:fixed;right:20px;bottom:20px;z-index:900;width:60px;height:60px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px -6px rgba(37,211,102,0.7);">
+  <svg width="32" height="32" viewBox="0 0 24 24" fill="#fff"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.513 5.26l-.999 3.648 3.985-1.607zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+</a>
+
 <script>
   /* ---------- Menú móvil ---------- */
   function alternarMenu() {
@@ -378,6 +412,67 @@
     document.getElementById('ndt-mobilemenu').style.display = 'none';
   }
   document.getElementById('anio').textContent = new Date().getFullYear();
+
+  /* ---------- Formulario de cotizacion ---------- */
+  const WHATSAPP_NUMERO = '50375937814';
+  const formCotiza = document.getElementById('formCotiza');
+  const cotizaAviso = document.getElementById('cotizaAviso');
+
+  function mostrarAvisoCotiza(texto, ok) {
+    cotizaAviso.innerHTML = texto;
+    cotizaAviso.style.display = 'block';
+    cotizaAviso.style.background = ok ? '#e9f7ef' : '#fdecec';
+    cotizaAviso.style.color = ok ? '#15803d' : '#b3261e';
+  }
+
+  if (formCotiza) {
+    formCotiza.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const datos = {
+        nombre:   document.getElementById('c_nombre').value.trim(),
+        telefono: document.getElementById('c_telefono').value.trim(),
+        origen:   document.getElementById('c_origen').value.trim(),
+        destino:  document.getElementById('c_destino').value.trim(),
+        carga:    document.getElementById('c_carga').value.trim(),
+      };
+      if (!datos.nombre || !datos.telefono) {
+        mostrarAvisoCotiza('Por favor escribe tu nombre y tu teléfono.', false);
+        return;
+      }
+      const btn = formCotiza.querySelector('button[type="submit"]');
+      btn.disabled = true; btn.textContent = 'Enviando...';
+
+      // Mensaje de WhatsApp con los datos (respaldo y contacto directo).
+      const msg = `Hola, soy ${datos.nombre}. Quiero cotizar un envío con Transporte D Todo.` +
+        (datos.origen ? `\nOrigen: ${datos.origen}` : '') +
+        (datos.destino ? `\nDestino: ${datos.destino}` : '') +
+        (datos.carga ? `\nCarga: ${datos.carga}` : '') +
+        `\nMi teléfono: ${datos.telefono}`;
+      const waLink = 'https://wa.me/' + WHATSAPP_NUMERO + '?text=' + encodeURIComponent(msg);
+
+      try {
+        const r = await fetch('/api/cotizaciones', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(datos),
+        });
+        if (!r.ok) throw new Error('No se pudo registrar');
+        formCotiza.reset();
+        mostrarAvisoCotiza(
+          '¡Gracias! Recibimos tu solicitud y te contactaremos pronto. ' +
+          'Para una respuesta más rápida, <a href="' + waLink + '" target="_blank" rel="noopener" style="color:#15803d;font-weight:700;text-decoration:underline;">envíala también por WhatsApp</a>.',
+          true);
+      } catch (err) {
+        // Si el servidor no responde, igual dejamos contactar por WhatsApp.
+        mostrarAvisoCotiza(
+          'No pudimos registrar tu solicitud en línea, pero puedes ' +
+          '<a href="' + waLink + '" target="_blank" rel="noopener" style="color:#b3261e;font-weight:700;text-decoration:underline;">enviárnosla por WhatsApp</a>.',
+          false);
+      } finally {
+        btn.disabled = false; btn.textContent = 'Enviar solicitud';
+      }
+    });
+  }
 
   /* ---------- Rastreo de pedido ---------- */
   const SVG_TRUCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 17h4V5H2v12h3"></path><path d="M20 17h2v-3.34a4 4 0 0 0-1.17-2.83L19 9h-5"></path><circle cx="7.5" cy="17.5" r="2.5"></circle><circle cx="17.5" cy="17.5" r="2.5"></circle></svg>';

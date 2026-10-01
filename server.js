@@ -131,6 +131,40 @@ app.post('/api/viajes/:idOcodigo/ubicacion', (req, res) => {
   res.json({ ok: true });
 });
 
+// --- Cotizaciones / prospectos (Fase 1: captar clientes) ---
+
+// Recibir una solicitud de cotizacion desde la landing page.
+app.post('/api/cotizaciones', (req, res) => {
+  const { nombre, telefono, origen, destino, carga, mensaje } = req.body || {};
+  if (!nombre || !String(nombre).trim() || !telefono || !String(telefono).trim()) {
+    return res.status(400).json({ error: 'El nombre y el telefono son obligatorios.' });
+  }
+  const limpiar = (v) => (v == null ? null : String(v).trim() || null);
+  const { lastInsertRowid } = db.prepare(`
+    INSERT INTO leads (nombre, telefono, origen, destino, carga, mensaje)
+    VALUES (?, ?, ?, ?, ?, ?)
+  `).run(
+    String(nombre).trim(), String(telefono).trim(),
+    limpiar(origen), limpiar(destino), limpiar(carga), limpiar(mensaje),
+  );
+  res.json({ ok: true, id: lastInsertRowid });
+});
+
+// Listar las cotizaciones (lo usa el Panel del Dueno).
+app.get('/api/cotizaciones', (req, res) => {
+  const leads = db.prepare('SELECT * FROM leads ORDER BY creado_en DESC, id DESC').all();
+  res.json({ leads, pendientes: leads.filter(l => !l.atendido).length });
+});
+
+// Marcar una cotizacion como atendida / no atendida.
+app.patch('/api/cotizaciones/:id', (req, res) => {
+  const lead = db.prepare('SELECT * FROM leads WHERE id = ?').get(req.params.id);
+  if (!lead) return res.status(404).json({ error: 'Cotizacion no encontrada' });
+  const atendido = req.body && req.body.atendido ? 1 : 0;
+  db.prepare('UPDATE leads SET atendido = ? WHERE id = ?').run(atendido, lead.id);
+  res.json({ ok: true });
+});
+
 app.listen(PORT, () => {
   console.log(`\n  Plataforma de Trazabilidad Logistica`);
   console.log(`  Servidor en linea: http://localhost:${PORT}`);
