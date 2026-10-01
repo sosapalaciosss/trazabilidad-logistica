@@ -1,0 +1,27 @@
+# Transporte D Todo
+
+> Empresa de transporte de carga, fletes empresariales y distribucion de mercancia en El Salvador, con seguimiento de pedidos en tiempo real.
+
+Transporte D Todo mueve carga a cualquier punto de El Salvador, de norte a sur y de oriente a occidente. El cliente puede cotizar en linea y rastrear su envio con un codigo de seguimiento, viendo el estado y la ubicacion del camion en el mapa.
+
+## Datos de contacto
+- Telefono y WhatsApp: +503 7593-7814
+- Cobertura: los 14 departamentos de El Salvador
+- Horario: lunes a sabado, 7:00 a 18:00
+
+## Servicios
+- Fletes empresariales: transporte dedicado con flota propia y rutas programadas.
+- Distribucion de mercancia: entregas puntuales a clientes y puntos de venta.
+- Seguimiento en vivo: rastreo del pedido por codigo, con ubicacion del camion en tiempo real.
+
+## Preguntas frecuentes
+- Como cotizar: llenar el formulario "Solicita tu cotizacion" en la pagina, o escribir por WhatsApp al +503 7593-7814.
+- Zonas de cobertura: los 14 departamentos de El Salvador.
+- Como rastrear: en la seccion "Rastrear pedido", con el codigo de seguimiento entregado.
+- Tipo de carga: carga empresarial y distribucion de mercancia.
+
+## Paginas principales
+- Inicio: /
+- Rastrear pedido: /#rastrear
+- Solicitar cotizacion: /#cotiza
+- Cobertura por departamento: /zona/san-salvador, /zona/santa-ana, /zona/san-miguel, y los demas departamentos.
