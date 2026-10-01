@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Vistas internas del equipo (no se indexan en Google)
+Disallow: /conductor.html
+Disallow: /panel.html
+
+Sitemap: https://transportedtodo.com/sitemap.xml
