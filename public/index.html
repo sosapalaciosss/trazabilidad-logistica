@@ -11,10 +11,8 @@
   <meta name="theme-color" content="#004d99">
   <link rel="canonical" href="https://transportedtodo.com/">
 
-  <!-- Icono del sitio -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23004d99'/%3E%3Ctext x='50' y='57' font-family='sans-serif' font-size='33' font-weight='800' fill='%23ffffff' text-anchor='middle'%3EDT%3C/text%3E%3Ccircle cx='50' cy='74' r='3' fill='%23e6b73e'/%3E%3C/svg%3E">
 
-  <!-- Vista previa al compartir (WhatsApp, Facebook, etc.) -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Transporte D Todo">
   <meta property="og:title" content="Transporte D Todo | Transporte de carga y fletes en El Salvador">
@@ -25,7 +23,6 @@
   <meta name="twitter:title" content="Transporte D Todo | Transporte de carga en El Salvador">
   <meta name="twitter:description" content="Fletes y distribución de mercancía en todo El Salvador. Cotiza en línea y rastrea tu pedido.">
 
-  <!-- Datos estructurados para Google (negocio local de transporte) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -44,8 +41,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     *{box-sizing:border-box;}
     html{scroll-behavior:smooth;}
@@ -53,7 +48,6 @@
     a{color:inherit;}
     @keyframes ndtdash{to{stroke-dashoffset:-220;}}
 
-    /* Hovers (equivalentes a los del diseño original) */
     .cta-blue{background:#1877d6;color:#fff;transition:background .18s;}
     .cta-blue:hover{background:#004d99;}
     .btn-outline{transition:border-color .18s,background .18s;}
@@ -62,30 +56,36 @@
     .serv-card:hover{border-color:#cfe0f3 !important;transform:translateY(-4px);}
     .link-arrow{transition:gap .18s;}
     .link-arrow:hover{gap:11px !important;}
-    .navlink{transition:color .15s;}
-    .navlink:hover{color:#1877d6;}
+
+    /* Lista de beneficios (oferta de valor B2B) */
+    .chk{flex-shrink:0;width:24px;height:24px;border-radius:50%;background:#e9f7ef;color:#1f9d57;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;margin-top:1px;}
+
+    /* Inputs y selects del formulario */
+    .inp{width:100%;padding:13px 15px;font-size:15px;font-family:'Poppins',sans-serif;border:1.5px solid #d7e2ef;border-radius:11px;color:#0f2a47;margin-bottom:12px;background:#fff;}
+    .inp:focus{outline:none;border-color:#1877d6;box-shadow:0 0 0 4px rgba(24,119,214,.12);}
+    select.inp{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7d92' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:38px;cursor:pointer;}
 
     @media (max-width:880px){
-      #ndt-navlinks{display:none !important;}
-      #ndt-navtoggle{display:inline-flex !important;}
       #ndt-hero{flex-direction:column !important;}
       #ndt-herotext,#ndt-heromedia{width:100% !important;max-width:100% !important;}
-      #contacto{padding-top:92px !important;}
     }
-    @media (min-width:881px){#ndt-mobilemenu{display:none !important;}}
-    @media (max-width:560px){#ndt-headercta{display:none;}}
-    @media (max-width:520px){.buscador{flex-direction:column;}}
+    @media (max-width:600px){
+      .hdr-cta{font-size:13px !important;padding:9px 14px !important;}
+    }
+    @media (max-width:430px){
+      .hdr-rastrear-txt{display:none;}
+    }
   </style>
 </head>
 <body>
 
 <div style="position:relative;overflow-x:hidden;background:#ffffff;">
 
-  <!-- ===================== HEADER ===================== -->
-  <header style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.9);backdrop-filter:blur(12px);border-bottom:1px solid #e9eff7;">
-    <div style="max-width:1200px;margin:0 auto;padding:15px 28px;display:flex;align-items:center;justify-content:space-between;gap:24px;">
+  <!-- ===================== HEADER (CRO: solo logo + 2 acciones) ===================== -->
+  <header style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid #e9eff7;">
+    <div style="max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;">
 
-      <a href="#inicio" onclick="cerrarMenu()" style="text-decoration:none;display:flex;flex-direction:column;line-height:1;gap:4px;">
+      <a href="#inicio" style="text-decoration:none;display:flex;flex-direction:column;line-height:1;gap:4px;">
         <span style="font-size:10px;letter-spacing:5px;font-weight:600;color:#1877d6;padding-left:3px;">TRANSPORTE</span>
         <span style="font-size:24px;font-weight:800;color:#004d99;letter-spacing:.3px;display:flex;align-items:center;gap:6px;">D Todo
           <svg width="34" height="8" viewBox="0 0 34 8" style="display:block;">
@@ -96,71 +96,43 @@
         </span>
       </a>
 
-      <nav id="ndt-navlinks" style="display:flex;align-items:center;gap:34px;">
-        <a class="navlink" href="#inicio" style="text-decoration:none;font-size:15px;font-weight:500;color:#33455a;">Inicio</a>
-        <a class="navlink" href="#servicios" style="text-decoration:none;font-size:15px;font-weight:500;color:#33455a;">Servicios</a>
-        <a class="navlink" href="#rastrear" style="text-decoration:none;font-size:15px;font-weight:500;color:#33455a;">Rastrear pedido</a>
-        <a class="navlink" href="#confianza" style="text-decoration:none;font-size:15px;font-weight:500;color:#33455a;">Confianza</a>
-        <a class="navlink" href="#contacto" style="text-decoration:none;font-size:15px;font-weight:500;color:#33455a;">Contacto</a>
-      </nav>
-
-      <div style="display:flex;align-items:center;gap:14px;">
-        <a id="ndt-headercta" class="cta-blue" href="#contacto" style="text-decoration:none;font-weight:600;font-size:15px;padding:11px 22px;border-radius:11px;box-shadow:0 8px 20px -6px rgba(24,119,214,0.45);">Cotiza Hoy</a>
-        <button id="ndt-navtoggle" onclick="alternarMenu()" style="display:none;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid #e2e9f2;background:#fff;border-radius:11px;cursor:pointer;color:#004d99;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
-        </button>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <a class="btn-outline hdr-cta" href="/rastreo.html" style="text-decoration:none;color:#004d99;font-weight:600;font-size:15px;padding:10px 18px;border-radius:11px;border:1.5px solid #cfe0f3;background:#fff;display:inline-flex;align-items:center;gap:8px;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          <span class="hdr-rastrear-txt">Rastrear pedido</span>
+        </a>
+        <a class="cta-blue hdr-cta" href="#cotiza" style="text-decoration:none;font-weight:600;font-size:15px;padding:11px 22px;border-radius:11px;box-shadow:0 8px 20px -6px rgba(24,119,214,0.45);">Cotiza Hoy</a>
       </div>
-    </div>
-
-    <div id="ndt-mobilemenu" style="display:none;border-top:1px solid #eaf0f7;background:#fff;padding:14px 28px 22px;flex-direction:column;gap:6px;">
-      <a href="#inicio" onclick="cerrarMenu()" style="text-decoration:none;font-size:16px;font-weight:500;color:#33455a;padding:11px 4px;">Inicio</a>
-      <a href="#servicios" onclick="cerrarMenu()" style="text-decoration:none;font-size:16px;font-weight:500;color:#33455a;padding:11px 4px;">Servicios</a>
-      <a href="#rastrear" onclick="cerrarMenu()" style="text-decoration:none;font-size:16px;font-weight:500;color:#33455a;padding:11px 4px;">Rastrear pedido</a>
-      <a href="#confianza" onclick="cerrarMenu()" style="text-decoration:none;font-size:16px;font-weight:500;color:#33455a;padding:11px 4px;">Confianza</a>
-      <a href="#contacto" onclick="cerrarMenu()" style="text-decoration:none;font-size:16px;font-weight:500;color:#33455a;padding:11px 4px;">Contacto</a>
-      <a href="#contacto" onclick="cerrarMenu()" class="cta-blue" style="text-decoration:none;text-align:center;margin-top:8px;font-weight:600;font-size:15px;padding:13px 22px;border-radius:11px;">Cotiza Hoy</a>
     </div>
   </header>
 
-  <!-- ===================== HERO ===================== -->
-  <section id="inicio" style="position:relative;overflow:hidden;background:linear-gradient(180deg,#ffffff 0%,#f4f9ff 100%);scroll-margin-top:88px;">
+  <!-- ===================== HERO (oferta B2B + formulario above the fold) ===================== -->
+  <section id="inicio" style="position:relative;overflow:hidden;background:linear-gradient(180deg,#ffffff 0%,#f4f9ff 100%);scroll-margin-top:84px;">
 
-    <!-- El Salvador map watermark -->
     <svg viewBox="0 0 1000 460" preserveAspectRatio="xMidYMid meet" style="position:absolute;left:-7%;top:9%;width:66%;max-width:780px;opacity:0.07;z-index:0;pointer-events:none;">
       <path d="M70,255 C135,205 180,196 240,208 C305,152 365,178 425,172 C475,142 545,152 595,167 C665,142 745,152 810,182 C875,172 935,208 948,255 C937,305 882,333 817,338 C762,368 692,362 632,352 C562,377 482,377 412,362 C342,382 262,377 197,357 C132,362 82,322 70,255 Z" fill="#004d99"></path>
-    </svg>
-
-    <!-- concentric route arcs, top right -->
-    <svg width="520" height="520" viewBox="0 0 520 520" style="position:absolute;right:-150px;top:-180px;z-index:0;pointer-events:none;opacity:0.5;">
-      <circle cx="260" cy="260" r="120" fill="none" stroke="#cfe1f7" stroke-width="1.4"></circle>
-      <circle cx="260" cy="260" r="180" fill="none" stroke="#dce9f9" stroke-width="1.4"></circle>
-      <circle cx="260" cy="260" r="240" fill="none" stroke="#e6f0fb" stroke-width="1.4"></circle>
     </svg>
     <svg width="320" height="640" viewBox="0 0 320 640" style="position:absolute;left:-40px;bottom:-120px;z-index:0;pointer-events:none;">
       <path d="M40,0 C120,80 30,180 120,260 C200,330 70,420 150,520 C200,580 170,620 220,640" fill="none" stroke="#e9ebee" stroke-width="9" stroke-linecap="round"></path>
       <path d="M40,0 C120,80 30,180 120,260 C200,330 70,420 150,520 C200,580 170,620 220,640" fill="none" stroke="#e6b73e" stroke-width="1.6" stroke-dasharray="7 10" stroke-linecap="round" style="animation:ndtdash 9s linear infinite;"></path>
     </svg>
 
-    <div id="ndt-hero" style="position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:clamp(48px,7vw,96px) 28px;display:flex;align-items:center;gap:clamp(32px,5vw,72px);">
+    <div id="ndt-hero" style="position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:clamp(40px,6vw,80px) 24px;display:flex;align-items:center;gap:clamp(32px,5vw,64px);">
 
       <div id="ndt-herotext" style="width:52%;">
         <div style="display:inline-flex;align-items:center;gap:9px;background:#e9f2fd;color:#004d99;font-weight:600;font-size:13px;padding:7px 15px 7px 13px;border-radius:999px;margin-bottom:22px;">
           <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#1877d6;box-shadow:0 0 0 4px rgba(24,119,214,0.18);"></span>
           Logística en El Salvador · de norte a sur
         </div>
-        <h1 style="margin:0 0 20px;font-size:clamp(31px,4.6vw,53px);font-weight:800;line-height:1.08;letter-spacing:-0.6px;color:#0f2a47;">
-          No importa la distancia, garantizamos entregas de calidad de <span style="color:#1877d6;">norte a sur</span> y de <span style="color:#1877d6;">oriente a occidente</span>
+        <h1 style="margin:0 0 24px;font-size:clamp(32px,4.6vw,52px);font-weight:800;line-height:1.08;letter-spacing:-0.8px;color:#0f2a47;">
+          Transporte de carga <span style="color:#1877d6;">garantizado</span> en todo El Salvador
         </h1>
-        <p style="margin:0 0 32px;font-size:clamp(16px,1.4vw,18px);line-height:1.65;color:#51637a;max-width:520px;">
-          El transporte que tu empresa necesita, la tranquilidad que tú mereces. Movemos tu carga con responsabilidad a cualquier punto del país.
-        </p>
-        <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-bottom:30px;">
-          <a href="#contacto" class="cta-blue" style="text-decoration:none;font-weight:600;font-size:16px;padding:14px 28px;border-radius:12px;box-shadow:0 12px 26px -8px rgba(24,119,214,0.5);">Cotiza Hoy</a>
-          <a href="#rastrear" class="btn-outline" style="text-decoration:none;color:#004d99;font-weight:600;font-size:16px;padding:14px 24px;border-radius:12px;border:1.5px solid #cfe0f3;background:#fff;display:inline-flex;align-items:center;gap:9px;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
-            Rastrear pedido
-          </a>
-        </div>
+        <ul style="list-style:none;margin:0 0 30px;padding:0;display:flex;flex-direction:column;gap:13px;">
+          <li style="display:flex;align-items:flex-start;gap:12px;font-size:16.5px;color:#2a3b50;line-height:1.4;"><span class="chk">✓</span> Unidades desde 4 hasta 12 toneladas y furgones.</li>
+          <li style="display:flex;align-items:flex-start;gap:12px;font-size:16.5px;color:#2a3b50;line-height:1.4;"><span class="chk">✓</span> Monitoreo y rastreo GPS 24/7 en cada viaje.</li>
+          <li style="display:flex;align-items:flex-start;gap:12px;font-size:16.5px;color:#2a3b50;line-height:1.4;"><span class="chk">✓</span> Seguro de mercancía incluido.</li>
+          <li style="display:flex;align-items:flex-start;gap:12px;font-size:16.5px;color:#2a3b50;line-height:1.4;"><span class="chk">✓</span> Cobertura en los 14 departamentos.</li>
+        </ul>
         <a href="tel:+50375937814" style="text-decoration:none;display:inline-flex;align-items:center;gap:12px;">
           <span style="display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:12px;background:#e9f2fd;color:#004d99;">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.95.36 1.88.7 2.77a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.31-1.27a2 2 0 0 1 2.11-.45c.89.34 1.82.57 2.77.7A2 2 0 0 1 22 16.92z"></path></svg>
@@ -172,31 +144,36 @@
         </a>
       </div>
 
+      <!-- Formulario de cotización reubicado al Hero (reduce fricción) -->
       <div id="ndt-heromedia" style="width:48%;position:relative;">
-        <svg width="360" height="360" viewBox="0 0 360 360" style="position:absolute;right:-60px;top:-50px;z-index:0;pointer-events:none;opacity:0.6;">
-          <circle cx="180" cy="180" r="92" fill="none" stroke="#d5e4f8" stroke-width="1.4"></circle>
-          <circle cx="180" cy="180" r="150" fill="none" stroke="#e3eefb" stroke-width="1.4"></circle>
-        </svg>
-        <div style="position:relative;z-index:1;aspect-ratio:4/3;border-radius:22px;border:1.5px dashed #a7c3e6;background:linear-gradient(135deg,#eaf3fd 0%,#dbe9f9 100%);background-image:repeating-linear-gradient(45deg,rgba(0,77,153,0.035) 0 1px,transparent 1px 19px);display:flex;align-items:center;justify-content:center;box-shadow:0 36px 70px -30px rgba(0,77,153,0.42);overflow:hidden;">
-          <div style="text-align:center;padding:24px;">
-            <svg width="74" height="74" viewBox="0 0 24 24" fill="none" stroke="#8eb0d8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:14px;"><path d="M10 17h4V5H2v12h3"></path><path d="M20 17h2v-3.34a4 4 0 0 0-1.17-2.83L19 9h-5"></path><path d="M14 17h1"></path><circle cx="7.5" cy="17.5" r="2.5"></circle><circle cx="17.5" cy="17.5" r="2.5"></circle></svg>
-            <div style="font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:0.5px;color:#6d89aa;">FOTO · camiones de caja blanca</div>
-          </div>
-        </div>
-        <div style="position:absolute;z-index:2;left:-18px;bottom:24px;background:#fff;border-radius:14px;padding:13px 17px;display:flex;align-items:center;gap:11px;box-shadow:0 20px 40px -18px rgba(15,42,71,0.32);border:1px solid #eef3f9;">
-          <span style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:#e9f7ef;color:#1f9d57;">
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
-          </span>
-          <div style="line-height:1.25;">
-            <div style="font-size:14px;font-weight:700;color:#0f2a47;">Entregas garantizadas</div>
-            <div style="font-size:12px;color:#8294a8;">Cobertura nacional</div>
-          </div>
+        <div id="cotiza" style="scroll-margin-top:90px;position:relative;z-index:1;background:#fff;border:1px solid #e6eef8;border-radius:22px;box-shadow:0 36px 70px -34px rgba(0,77,153,0.42);padding:clamp(24px,3vw,32px);">
+          <div style="font-size:12px;font-weight:700;letter-spacing:3px;color:#1877d6;margin-bottom:8px;">COTIZA EN LÍNEA</div>
+          <h2 style="margin:0 0 6px;font-size:22px;font-weight:800;color:#0f2a47;letter-spacing:-0.3px;">Solicita tu cotización</h2>
+          <p style="margin:0 0 18px;font-size:14px;color:#51637a;line-height:1.5;">Respuesta el mismo día, sin compromiso.</p>
+          <form id="formCotiza" autocomplete="on">
+            <input id="c_nombre" class="inp" placeholder="Nombre o empresa *" />
+            <input id="c_telefono" class="inp" placeholder="Teléfono / WhatsApp *" />
+            <div style="display:flex;gap:10px;">
+              <select id="c_origen" class="inp" style="flex:1;min-width:0;">
+                <option value="">Origen *</option>
+                <option>Ahuachapán</option><option>Santa Ana</option><option>Sonsonate</option><option>La Libertad</option><option>San Salvador</option><option>Chalatenango</option><option>Cuscatlán</option><option>La Paz</option><option>Cabañas</option><option>San Vicente</option><option>Usulután</option><option>San Miguel</option><option>Morazán</option><option>La Unión</option>
+              </select>
+              <select id="c_destino" class="inp" style="flex:1;min-width:0;">
+                <option value="">Destino *</option>
+                <option>Ahuachapán</option><option>Santa Ana</option><option>Sonsonate</option><option>La Libertad</option><option>San Salvador</option><option>Chalatenango</option><option>Cuscatlán</option><option>La Paz</option><option>Cabañas</option><option>San Vicente</option><option>Usulután</option><option>San Miguel</option><option>Morazán</option><option>La Unión</option>
+              </select>
+            </div>
+            <textarea id="c_carga" class="inp" rows="2" placeholder="¿Qué vas a enviar? (opcional)" style="resize:vertical;"></textarea>
+            <button type="submit" class="cta-blue" style="width:100%;border:none;cursor:pointer;font-family:'Poppins',sans-serif;font-weight:700;font-size:16px;padding:15px;border-radius:12px;box-shadow:0 12px 26px -10px rgba(24,119,214,0.5);">Solicitar cotización</button>
+            <div id="cotizaAviso" style="display:none;margin-top:14px;padding:14px 16px;border-radius:11px;font-size:14px;font-weight:500;"></div>
+          </form>
+          <div style="text-align:center;margin-top:13px;font-size:13.5px;color:#8294a8;">o <a href="https://wa.me/50375937814?text=Hola%2C%20quiero%20cotizar%20un%20env%C3%ADo%20con%20Transporte%20D%20Todo." target="_blank" rel="noopener" style="color:#1f9d57;font-weight:700;text-decoration:none;">escríbenos por WhatsApp</a></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- callesita divisoria hero -> rastrear -->
+  <!-- callesita divisoria hero -> servicios -->
   <div style="position:relative;width:100%;height:54px;pointer-events:none;">
     <svg viewBox="0 0 1200 54" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;">
       <path d="M-20,38 C200,38 250,16 470,20 C700,24 770,44 1010,38 C1120,35 1180,28 1220,28" fill="none" stroke="#e9ebee" stroke-width="9" stroke-linecap="round" vector-effect="non-scaling-stroke"></path>
@@ -204,56 +181,8 @@
     </svg>
   </div>
 
-  <!-- ===================== RASTREAR PEDIDO ===================== -->
-  <section id="rastrear" style="position:relative;background:#ffffff;padding:clamp(48px,7vw,88px) 28px;scroll-margin-top:88px;overflow:hidden;">
-    <div style="max-width:760px;margin:0 auto;position:relative;z-index:1;">
-      <div style="text-align:center;max-width:620px;margin:0 auto 40px;">
-        <div style="font-size:12px;font-weight:700;letter-spacing:3px;color:#1877d6;margin-bottom:12px;">SEGUIMIENTO EN LÍNEA</div>
-        <h2 style="margin:0 0 14px;font-size:clamp(27px,3.4vw,40px);font-weight:800;color:#0f2a47;letter-spacing:-0.5px;">Rastrea tu pedido</h2>
-        <p style="margin:0;font-size:17px;line-height:1.6;color:#51637a;">Ingresa tu código de seguimiento y mira el estado de tu envío y dónde va tu carga, en tiempo real.</p>
-      </div>
-
-      <div style="background:#fff;border:1px solid #eaf0f8;border-radius:22px;box-shadow:0 22px 48px -28px rgba(20,50,90,0.32);overflow:hidden;">
-        <div style="background:linear-gradient(135deg,#00356b 0%,#004d99 70%);color:#fff;padding:24px 28px;display:flex;align-items:center;gap:13px;">
-          <span style="display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:13px;background:rgba(255,255,255,0.13);flex-shrink:0;">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg>
-          </span>
-          <div style="line-height:1.3;">
-            <div style="font-size:18px;font-weight:700;">Rastrea tu envío</div>
-            <div style="font-size:13.5px;color:#bcd4ee;">Escribe el código que te compartimos (por ejemplo, TRK-1001).</div>
-          </div>
-        </div>
-
-        <div style="padding:26px 28px 30px;">
-          <div class="buscador" style="display:flex;gap:10px;">
-            <input id="codigo" placeholder="Ej: TRK-1001" autocomplete="off"
-              style="flex:1;padding:15px 17px;font-size:16px;font-family:'Poppins',sans-serif;border-radius:12px;border:1.5px solid #d7e2ef;background:#fff;color:#0f2a47;">
-            <button id="btnBuscar" class="cta-blue" style="border:none;cursor:pointer;font-family:'Poppins',sans-serif;font-weight:600;font-size:16px;padding:15px 26px;border-radius:12px;box-shadow:0 12px 26px -10px rgba(24,119,214,0.5);">Rastrear</button>
-          </div>
-          <div style="font-size:13.5px;color:#8294a8;margin-top:12px;">
-            <b style="color:#51637a;font-weight:600;">¿Solo quieres probar?</b> Usa un código de ejemplo:
-            <span class="chip" data-cod="TRK-1001" style="cursor:pointer;display:inline-block;background:#e9f2fd;color:#004d99;border:1px solid #cfe0f3;padding:3px 11px;border-radius:999px;font-weight:600;font-size:13px;margin:2px 3px;">TRK-1001</span>
-            <span class="chip" data-cod="TRK-1002" style="cursor:pointer;display:inline-block;background:#e9f2fd;color:#004d99;border:1px solid #cfe0f3;padding:3px 11px;border-radius:999px;font-weight:600;font-size:13px;margin:2px 3px;">TRK-1002</span>
-            <span class="chip" data-cod="TRK-1003" style="cursor:pointer;display:inline-block;background:#e9f2fd;color:#004d99;border:1px solid #cfe0f3;padding:3px 11px;border-radius:999px;font-weight:600;font-size:13px;margin:2px 3px;">TRK-1003</span>
-          </div>
-
-          <div id="aviso" style="display:none;margin-top:18px;padding:15px 17px;border-radius:12px;background:#fdecec;color:#b3261e;font-size:14.5px;font-weight:500;"></div>
-          <div id="resultado" style="margin-top:22px;"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- callesita divisoria rastrear -> servicios -->
-  <div style="position:relative;width:100%;height:54px;pointer-events:none;">
-    <svg viewBox="0 0 1200 54" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;">
-      <path d="M-20,24 C180,24 240,42 460,38 C690,34 760,14 1000,20 C1120,23 1180,32 1220,30" fill="none" stroke="#e9ebee" stroke-width="9" stroke-linecap="round" vector-effect="non-scaling-stroke"></path>
-      <path d="M-20,24 C180,24 240,42 460,38 C690,34 760,14 1000,20 C1120,23 1180,32 1220,30" fill="none" stroke="#e6b73e" stroke-width="1.5" stroke-dasharray="6 9" stroke-linecap="round" vector-effect="non-scaling-stroke" style="animation:ndtdash 14s linear infinite;"></path>
-    </svg>
-  </div>
-
   <!-- ===================== SERVICIOS ===================== -->
-  <section id="servicios" style="position:relative;background:#ffffff;padding:clamp(60px,8vw,104px) 28px;scroll-margin-top:88px;overflow:hidden;">
+  <section id="servicios" style="position:relative;background:#ffffff;padding:clamp(60px,8vw,104px) 28px;scroll-margin-top:84px;overflow:hidden;">
     <div style="max-width:1080px;margin:0 auto;position:relative;z-index:1;">
       <div style="text-align:center;max-width:620px;margin:0 auto 54px;">
         <div style="font-size:12px;font-weight:700;letter-spacing:3px;color:#1877d6;margin-bottom:12px;">ESPECIALISTAS EN</div>
@@ -275,7 +204,7 @@
             </span>
             <h3 style="margin:0 0 10px;font-size:21px;font-weight:700;color:#0f2a47;">Fletes Empresariales</h3>
             <p style="margin:0 0 20px;font-size:15.5px;line-height:1.6;color:#51637a;">Servicio de transporte dedicado para tu empresa. Programamos tus rutas y movemos volúmenes con una flota propia, lista cuando la necesitas.</p>
-            <a href="#contacto" class="link-arrow" style="text-decoration:none;display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:15px;color:#1877d6;">Cotiza este servicio
+            <a href="#cotiza" class="link-arrow" style="text-decoration:none;display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:15px;color:#1877d6;">Cotiza este servicio
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
             </a>
           </article>
@@ -286,7 +215,7 @@
             </span>
             <h3 style="margin:0 0 10px;font-size:21px;font-weight:700;color:#0f2a47;">Distribución de Mercancía</h3>
             <p style="margin:0 0 20px;font-size:15.5px;line-height:1.6;color:#51637a;">Llevamos tu carga a cualquier lugar de El Salvador con un manejo cuidadoso. Distribución puntual hacia tus clientes y puntos de venta.</p>
-            <a href="#contacto" class="link-arrow" style="text-decoration:none;display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:15px;color:#1877d6;">Cotiza este servicio
+            <a href="#cotiza" class="link-arrow" style="text-decoration:none;display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:15px;color:#1877d6;">Cotiza este servicio
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
             </a>
           </article>
@@ -305,7 +234,7 @@
   </div>
 
   <!-- ===================== CONFIANZA ===================== -->
-  <section id="confianza" style="position:relative;overflow:hidden;background:linear-gradient(135deg,#00356b 0%,#004d99 60%,#0a5bb0 100%);color:#fff;padding:clamp(60px,8vw,100px) 28px;scroll-margin-top:88px;">
+  <section id="confianza" style="position:relative;overflow:hidden;background:linear-gradient(135deg,#00356b 0%,#004d99 60%,#0a5bb0 100%);color:#fff;padding:clamp(60px,8vw,100px) 28px;scroll-margin-top:84px;">
     <svg viewBox="0 0 1000 460" preserveAspectRatio="xMidYMid meet" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:120%;opacity:0.06;z-index:0;pointer-events:none;">
       <path d="M70,255 C135,205 180,196 240,208 C305,152 365,178 425,172 C475,142 545,152 595,167 C665,142 745,152 810,182 C875,172 935,208 948,255 C937,305 882,333 817,338 C762,368 692,362 632,352 C562,377 482,377 412,362 C342,382 262,377 197,357 C132,362 82,322 70,255 Z" fill="#ffffff"></path>
     </svg>
@@ -350,7 +279,7 @@
   </section>
 
   <!-- ===================== PREGUNTAS FRECUENTES (SEO + IA) ===================== -->
-  <section id="faq" style="background:#fff;padding:clamp(56px,7vw,88px) 28px;scroll-margin-top:88px;">
+  <section id="faq" style="background:#fff;padding:clamp(56px,7vw,88px) 28px;scroll-margin-top:84px;">
     <div style="max-width:760px;margin:0 auto;">
       <div style="text-align:center;margin-bottom:36px;">
         <div style="font-size:12px;font-weight:700;letter-spacing:3px;color:#1877d6;margin-bottom:10px;">RESOLVEMOS TUS DUDAS</div>
@@ -366,7 +295,7 @@
       </details>
       <details style="background:#f5f9ff;border:1px solid #e6eef8;border-radius:14px;padding:18px 22px;margin-bottom:12px;">
         <summary style="font-weight:700;color:#0f2a47;cursor:pointer;font-size:16px;">¿Cómo rastreo mi pedido?</summary>
-        <p style="margin:12px 0 0;color:#51637a;line-height:1.65;">Con el código de seguimiento que te compartimos, en la sección "Rastrear pedido" ves el estado y la ubicación del camión en tiempo real.</p>
+        <p style="margin:12px 0 0;color:#51637a;line-height:1.65;">Con el código de seguimiento que te compartimos, en la página de "Rastrear pedido" ves el estado y la ubicación del camión en tiempo real.</p>
       </details>
       <details style="background:#f5f9ff;border:1px solid #e6eef8;border-radius:14px;padding:18px 22px;margin-bottom:12px;">
         <summary style="font-weight:700;color:#0f2a47;cursor:pointer;font-size:16px;">¿Qué tipo de carga transportan?</summary>
@@ -385,20 +314,20 @@
     "mainEntity": [
       {"@type":"Question","name":"¿Cuánto cuesta un flete en El Salvador?","acceptedAnswer":{"@type":"Answer","text":"El costo depende del origen, el destino, el tipo y el volumen de la carga. Envíanos los datos por el formulario o por WhatsApp y te damos una cotización sin compromiso."}},
       {"@type":"Question","name":"¿A qué zonas llegan?","acceptedAnswer":{"@type":"Answer","text":"Damos cobertura en los 14 departamentos de El Salvador, de norte a sur y de oriente a occidente."}},
-      {"@type":"Question","name":"¿Cómo rastreo mi pedido?","acceptedAnswer":{"@type":"Answer","text":"Con el código de seguimiento que te compartimos, en la sección Rastrear pedido ves el estado y la ubicación del camión en tiempo real."}},
+      {"@type":"Question","name":"¿Cómo rastreo mi pedido?","acceptedAnswer":{"@type":"Answer","text":"Con el código de seguimiento que te compartimos, en la página de Rastrear pedido ves el estado y la ubicación del camión en tiempo real."}},
       {"@type":"Question","name":"¿Qué tipo de carga transportan?","acceptedAnswer":{"@type":"Answer","text":"Transportamos carga empresarial y distribución de mercancía. Cuéntanos qué necesitas mover y te confirmamos la unidad adecuada."}},
       {"@type":"Question","name":"¿Cómo solicito una cotización?","acceptedAnswer":{"@type":"Answer","text":"Llena el formulario Solicita tu cotización en la página o escríbenos por WhatsApp al +503 7593-7814."}}
     ]
   }
   </script>
 
-  <!-- ===================== COBERTURA (SEO local por departamento) ===================== -->
-  <section id="cobertura" style="background:linear-gradient(180deg,#f4f9ff,#fff);padding:clamp(52px,7vw,80px) 28px;scroll-margin-top:88px;">
+  <!-- ===================== COBERTURA ===================== -->
+  <section id="cobertura" style="background:linear-gradient(180deg,#f4f9ff,#fff);padding:clamp(52px,7vw,80px) 28px;scroll-margin-top:84px;">
     <div style="max-width:1000px;margin:0 auto;text-align:center;">
       <div style="font-size:12px;font-weight:700;letter-spacing:3px;color:#1877d6;margin-bottom:10px;">COBERTURA NACIONAL</div>
       <h2 style="margin:0 0 12px;font-size:clamp(26px,3.2vw,38px);font-weight:800;color:#0f2a47;letter-spacing:-0.5px;">Llegamos a todo El Salvador</h2>
       <p style="margin:0 auto 30px;max-width:560px;font-size:16px;color:#51637a;line-height:1.6;">Transporte de carga y distribución en los 14 departamentos. Elige tu zona:</p>
-      <div id="zonasLista" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+      <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
         <a href="/zona/ahuachapan" style="text-decoration:none;background:#fff;border:1px solid #d7e2ef;color:#004d99;font-weight:600;font-size:14px;padding:9px 16px;border-radius:999px;">Ahuachapán</a>
         <a href="/zona/santa-ana" style="text-decoration:none;background:#fff;border:1px solid #d7e2ef;color:#004d99;font-weight:600;font-size:14px;padding:9px 16px;border-radius:999px;">Santa Ana</a>
         <a href="/zona/sonsonate" style="text-decoration:none;background:#fff;border:1px solid #d7e2ef;color:#004d99;font-weight:600;font-size:14px;padding:9px 16px;border-radius:999px;">Sonsonate</a>
@@ -418,7 +347,7 @@
   </section>
 
   <!-- ===================== FOOTER / CONTACTO ===================== -->
-  <footer id="contacto" style="position:relative;overflow:hidden;background:#f5f9ff;border-top:1px solid #e6eef8;padding:clamp(56px,7vw,88px) 28px 30px;scroll-margin-top:88px;">
+  <footer id="contacto" style="position:relative;overflow:hidden;background:#f5f9ff;border-top:1px solid #e6eef8;padding:clamp(56px,7vw,80px) 28px 30px;scroll-margin-top:84px;">
     <svg width="200" height="72" viewBox="0 0 200 72" style="position:absolute;left:50%;top:2px;transform:translateX(-50%);z-index:0;pointer-events:none;">
       <path d="M100,0 C74,18 138,32 100,48" fill="none" stroke="#e9ebee" stroke-width="9" stroke-linecap="round"></path>
       <path d="M100,0 C74,18 138,32 100,48" fill="none" stroke="#e6b73e" stroke-width="1.5" stroke-dasharray="6 9" stroke-linecap="round" style="animation:ndtdash 8s linear infinite;"></path>
@@ -429,34 +358,6 @@
     </svg>
 
     <div style="position:relative;z-index:1;max-width:1080px;margin:0 auto;">
-
-      <!-- Formulario de cotizacion (Fase 1: captar clientes) -->
-      <div id="cotiza" style="scroll-margin-top:88px;background:#fff;border:1px solid #e6eef8;border-radius:22px;box-shadow:0 22px 48px -30px rgba(20,50,90,0.3);padding:clamp(24px,4vw,38px);margin-bottom:44px;">
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(24px,4vw,44px);align-items:start;">
-          <div>
-            <div style="font-size:12px;font-weight:700;letter-spacing:3px;color:#1877d6;margin-bottom:10px;">COTIZA EN LÍNEA</div>
-            <h2 style="margin:0 0 12px;font-size:clamp(24px,3vw,34px);font-weight:800;color:#0f2a47;letter-spacing:-0.5px;">Solicita tu cotización</h2>
-            <p style="margin:0 0 20px;font-size:16px;line-height:1.6;color:#51637a;">Déjanos los datos de tu envío y te contactamos con una cotización sin compromiso. Si prefieres, escríbenos directo por WhatsApp.</p>
-            <a href="https://wa.me/50375937814?text=Hola%2C%20quiero%20cotizar%20un%20env%C3%ADo%20con%20Transporte%20D%20Todo." target="_blank" rel="noopener" style="text-decoration:none;display:inline-flex;align-items:center;gap:10px;background:#25D366;color:#fff;font-weight:600;font-size:15px;padding:13px 22px;border-radius:12px;box-shadow:0 12px 26px -10px rgba(37,211,102,0.6);">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.513 5.26l-.999 3.648 3.985-1.607zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-              Escríbenos por WhatsApp
-            </a>
-          </div>
-
-          <form id="formCotiza" autocomplete="on">
-            <input id="c_nombre" placeholder="Tu nombre o empresa *" style="width:100%;padding:13px 15px;font-size:15px;font-family:'Poppins',sans-serif;border:1.5px solid #d7e2ef;border-radius:11px;color:#0f2a47;margin-bottom:12px;background:#fff;" />
-            <input id="c_telefono" placeholder="Teléfono / WhatsApp *" style="width:100%;padding:13px 15px;font-size:15px;font-family:'Poppins',sans-serif;border:1.5px solid #d7e2ef;border-radius:11px;color:#0f2a47;margin-bottom:12px;background:#fff;" />
-            <div style="display:flex;gap:12px;flex-wrap:wrap;">
-              <input id="c_origen" placeholder="Origen (de dónde)" style="flex:1;min-width:130px;padding:13px 15px;font-size:15px;font-family:'Poppins',sans-serif;border:1.5px solid #d7e2ef;border-radius:11px;color:#0f2a47;margin-bottom:12px;background:#fff;" />
-              <input id="c_destino" placeholder="Destino (a dónde)" style="flex:1;min-width:130px;padding:13px 15px;font-size:15px;font-family:'Poppins',sans-serif;border:1.5px solid #d7e2ef;border-radius:11px;color:#0f2a47;margin-bottom:12px;background:#fff;" />
-            </div>
-            <textarea id="c_carga" rows="2" placeholder="¿Qué vas a enviar? (opcional)" style="width:100%;padding:13px 15px;font-size:15px;font-family:'Poppins',sans-serif;border:1.5px solid #d7e2ef;border-radius:11px;color:#0f2a47;margin-bottom:14px;background:#fff;resize:vertical;"></textarea>
-            <button type="submit" class="cta-blue" style="width:100%;border:none;cursor:pointer;font-family:'Poppins',sans-serif;font-weight:600;font-size:16px;padding:15px;border-radius:12px;box-shadow:0 12px 26px -10px rgba(24,119,214,0.5);">Enviar solicitud</button>
-            <div id="cotizaAviso" style="display:none;margin-top:14px;padding:14px 16px;border-radius:11px;font-size:14.5px;font-weight:500;"></div>
-          </form>
-        </div>
-      </div>
-
       <div style="display:flex;flex-wrap:wrap;gap:40px;justify-content:space-between;align-items:flex-start;padding-bottom:42px;border-bottom:1px solid #e3ebf5;">
 
         <div style="max-width:320px;">
@@ -480,7 +381,7 @@
             <span style="font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-0.5px;">+503 7593-7814</span>
           </a>
           <div style="display:flex;gap:12px;margin-top:20px;">
-            <a href="tel:+50375937814" class="cta-blue" style="text-decoration:none;font-weight:600;font-size:14.5px;padding:12px 22px;border-radius:11px;">Llamar ahora</a>
+            <a href="#cotiza" class="cta-blue" style="text-decoration:none;font-weight:600;font-size:14.5px;padding:12px 22px;border-radius:11px;">Cotizar ahora</a>
             <a href="https://wa.me/50375937814" target="_blank" rel="noopener" class="btn-outline" style="text-decoration:none;background:#fff;border:1.5px solid #cfe0f3;color:#004d99;font-weight:600;font-size:14.5px;padding:12px 22px;border-radius:11px;">WhatsApp</a>
           </div>
         </div>
@@ -489,10 +390,10 @@
       <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;padding-top:22px;">
         <span style="font-size:13px;color:#8294a8;">© <span id="anio"></span> Transporte D Todo. Todos los derechos reservados.</span>
         <div style="display:flex;gap:24px;flex-wrap:wrap;">
-          <a class="navlink" href="#servicios" style="text-decoration:none;font-size:13px;color:#6b7d92;font-weight:500;">Servicios</a>
-          <a class="navlink" href="#rastrear" style="text-decoration:none;font-size:13px;color:#6b7d92;font-weight:500;">Rastrear pedido</a>
-          <a class="navlink" href="#confianza" style="text-decoration:none;font-size:13px;color:#6b7d92;font-weight:500;">Confianza</a>
-          <a class="navlink" href="/conductor.html" style="text-decoration:none;font-size:13px;color:#6b7d92;font-weight:500;">Acceso equipo</a>
+          <a href="#servicios" style="text-decoration:none;font-size:13px;color:#6b7d92;font-weight:500;">Servicios</a>
+          <a href="/rastreo.html" style="text-decoration:none;font-size:13px;color:#6b7d92;font-weight:500;">Rastrear pedido</a>
+          <a href="#confianza" style="text-decoration:none;font-size:13px;color:#6b7d92;font-weight:500;">Confianza</a>
+          <a href="#faq" style="text-decoration:none;font-size:13px;color:#6b7d92;font-weight:500;">Preguntas frecuentes</a>
         </div>
       </div>
     </div>
@@ -507,17 +408,9 @@
 </a>
 
 <script>
-  /* ---------- Menú móvil ---------- */
-  function alternarMenu() {
-    const m = document.getElementById('ndt-mobilemenu');
-    m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
-  }
-  function cerrarMenu() {
-    document.getElementById('ndt-mobilemenu').style.display = 'none';
-  }
   document.getElementById('anio').textContent = new Date().getFullYear();
 
-  /* ---------- Formulario de cotizacion ---------- */
+  /* ---------- Formulario de cotización ---------- */
   const WHATSAPP_NUMERO = '50375937814';
   const formCotiza = document.getElementById('formCotiza');
   const cotizaAviso = document.getElementById('cotizaAviso');
@@ -546,7 +439,6 @@
       const btn = formCotiza.querySelector('button[type="submit"]');
       btn.disabled = true; btn.textContent = 'Enviando...';
 
-      // Mensaje de WhatsApp con los datos (respaldo y contacto directo).
       const msg = `Hola, soy ${datos.nombre}. Quiero cotizar un envío con Transporte D Todo.` +
         (datos.origen ? `\nOrigen: ${datos.origen}` : '') +
         (datos.destino ? `\nDestino: ${datos.destino}` : '') +
@@ -567,185 +459,15 @@
           'Para una respuesta más rápida, <a href="' + waLink + '" target="_blank" rel="noopener" style="color:#15803d;font-weight:700;text-decoration:underline;">envíala también por WhatsApp</a>.',
           true);
       } catch (err) {
-        // Si el servidor no responde, igual dejamos contactar por WhatsApp.
         mostrarAvisoCotiza(
           'No pudimos registrar tu solicitud en línea, pero puedes ' +
           '<a href="' + waLink + '" target="_blank" rel="noopener" style="color:#b3261e;font-weight:700;text-decoration:underline;">enviárnosla por WhatsApp</a>.',
           false);
       } finally {
-        btn.disabled = false; btn.textContent = 'Enviar solicitud';
+        btn.disabled = false; btn.textContent = 'Solicitar cotización';
       }
     });
   }
-
-  /* ---------- Rastreo de pedido ---------- */
-  const SVG_TRUCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 17h4V5H2v12h3"></path><path d="M20 17h2v-3.34a4 4 0 0 0-1.17-2.83L19 9h-5"></path><circle cx="7.5" cy="17.5" r="2.5"></circle><circle cx="17.5" cy="17.5" r="2.5"></circle></svg>';
-  const SVG_CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>';
-  const SVG_PIN   = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>';
-
-  const inputCodigo = document.getElementById('codigo');
-  const btnBuscar   = document.getElementById('btnBuscar');
-  const aviso       = document.getElementById('aviso');
-  const resultado   = document.getElementById('resultado');
-
-  let ESTADOS = [];
-  let codigoActual = null;
-  let refrescoTimer = null;
-  let map = null, marker = null;
-
-  function fmtFecha(s) {
-    const d = new Date(String(s).replace(' ', 'T'));
-    if (isNaN(d)) return s;
-    return d.toLocaleString('es', { dateStyle: 'medium', timeStyle: 'short' });
-  }
-
-  async function cargarEstados() {
-    try { const r = await fetch('/api/estados'); ESTADOS = (await r.json()).estados; }
-    catch (e) { ESTADOS = []; }
-  }
-
-  function detenerRefresco() {
-    if (refrescoTimer) { clearInterval(refrescoTimer); refrescoTimer = null; }
-    if (map) { map.remove(); map = null; marker = null; }
-  }
-
-  async function buscar(codigo) {
-    codigo = (codigo || '').trim().toUpperCase();
-    if (!codigo) return;
-    aviso.style.display = 'none';
-    resultado.innerHTML = '';
-    detenerRefresco();
-    codigoActual = codigo;
-
-    try {
-      const r = await fetch('/api/viajes/' + encodeURIComponent(codigo));
-      if (r.status === 404) {
-        aviso.textContent = 'No encontramos ningún envío con el código "' + codigo + '". Revisa que esté bien escrito.';
-        aviso.style.display = 'block';
-        return;
-      }
-      const { viaje, eventos } = await r.json();
-      renderCompleto(viaje, eventos);
-      refrescoTimer = setInterval(refrescar, 6000);
-    } catch (e) {
-      aviso.textContent = 'No se pudo conectar con el servidor.';
-      aviso.style.display = 'block';
-    }
-  }
-
-  function lineaTiempo(viaje, eventos) {
-    const posActual = ESTADOS.indexOf(viaje.estado_actual);
-    const porEstado = {};
-    eventos.forEach(e => { porEstado[e.estado] = e; });
-    return ESTADOS.map((nombre, i) => {
-      const hecho = i < posActual, actual = i === posActual, esUltimo = i === ESTADOS.length - 1;
-      const colorPunto = hecho ? '#1f9d57' : actual ? '#1877d6' : '#dbe3ee';
-      const sombra = actual ? 'box-shadow:0 0 0 4px rgba(24,119,214,0.18);' : '';
-      const colorLinea = hecho ? '#1f9d57' : '#dbe3ee';
-      const ev = porEstado[nombre];
-      const icono = (hecho || actual) ? '<span style="width:11px;height:11px;color:#fff;display:flex;">' + SVG_CHECK + '</span>' : '';
-      const nombreColor = (hecho || actual) ? '#0f2a47' : '#9aa8ba';
-      const nombrePeso  = (hecho || actual) ? '600' : '500';
-      return `
-        <div style="display:flex;gap:14px;">
-          <div style="width:22px;display:flex;flex-direction:column;align-items:center;">
-            <div style="width:20px;height:20px;border-radius:50%;background:${colorPunto};${sombra}display:flex;align-items:center;justify-content:center;flex-shrink:0;">${icono}</div>
-            ${esUltimo ? '' : `<div style="width:2px;flex:1;background:${colorLinea};"></div>`}
-          </div>
-          <div style="padding-bottom:18px;">
-            <div style="font-weight:${nombrePeso};color:${nombreColor};">${nombre}</div>
-            ${ev ? `<div style="font-size:12.5px;color:#8294a8;">${fmtFecha(ev.creado_en)}</div>` : ''}
-            ${ev && ev.nota ? `<div style="font-size:13.5px;color:#51637a;margin-top:2px;font-style:italic;">${ev.nota}</div>` : ''}
-          </div>
-        </div>`;
-    }).join('');
-  }
-
-  function badgeHTML(viaje) {
-    const finalizado = ESTADOS.indexOf(viaje.estado_actual) === ESTADOS.length - 1;
-    const bg = finalizado ? '#e9f7ef' : '#e9f2fd';
-    const col = finalizado ? '#1f9d57' : '#004d99';
-    const icono = finalizado ? SVG_CHECK : SVG_TRUCK;
-    return `<span style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;background:${bg};color:${col};font-weight:700;font-size:15px;">
-      <span style="width:18px;height:18px;display:flex;">${icono}</span>${viaje.estado_actual}</span>`;
-  }
-
-  function renderCompleto(viaje, eventos) {
-    resultado.innerHTML = `
-      <div style="font-size:12.5px;color:#8294a8;letter-spacing:1px;font-weight:600;">${viaje.codigo}</div>
-      <div style="font-size:22px;font-weight:800;color:#0f2a47;margin:4px 0 14px;">${viaje.origen} → ${viaje.destino}</div>
-      <div id="badge">${badgeHTML(viaje)}</div>
-      <div style="font-weight:700;color:#0f2a47;margin:24px 0 10px;display:flex;align-items:center;gap:8px;">
-        <span style="width:18px;height:18px;color:#1877d6;display:flex;">${SVG_PIN}</span> Ubicación del camión</div>
-      <div id="mapaWrap"></div>
-      <div id="progreso" style="margin:24px 0 4px;">${lineaTiempo(viaje, eventos)}</div>`;
-    actualizarMapa(viaje);
-  }
-
-  function actualizarMapa(viaje) {
-    const wrap = document.getElementById('mapaWrap');
-    if (!wrap) return;
-    const tieneUbic = typeof viaje.lat === 'number' && typeof viaje.lng === 'number';
-    const cajaSinMapa = 'padding:26px;text-align:center;color:#8294a8;background:#f5f9ff;border-radius:12px;border:1px dashed #cfe0f3;font-size:14.5px;';
-
-    if (!tieneUbic) {
-      if (map) { map.remove(); map = null; marker = null; }
-      wrap.innerHTML = '<div style="' + cajaSinMapa + '">Aún no hay ubicación compartida para este envío.</div>';
-      return;
-    }
-    if (typeof L === 'undefined') {
-      wrap.innerHTML = '<div style="' + cajaSinMapa + '">No se pudo cargar el mapa (revisa tu conexión a internet). El seguimiento del envío sigue disponible abajo.</div>';
-      return;
-    }
-    const pos = [viaje.lat, viaje.lng];
-    if (!map) {
-      wrap.innerHTML = '<div id="mapa" style="height:280px;border-radius:12px;overflow:hidden;background:#e2e8f0;"></div>';
-      map = L.map('mapa').setView(pos, 11);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap', maxZoom: 18 }).addTo(map);
-      const pinHTML = '<div style="width:34px;height:34px;border-radius:50% 50% 50% 0;background:#1877d6;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(0,0,0,.4);border:2px solid #fff;">' +
-        '<span style="transform:rotate(45deg);width:17px;height:17px;color:#fff;display:flex;">' + SVG_TRUCK + '</span></div>';
-      const icono = L.divIcon({ html: pinHTML, className: 'pin-wrap', iconSize: [34, 34], iconAnchor: [17, 34] });
-      marker = L.marker(pos, { icon: icono }).addTo(map);
-    } else {
-      marker.setLatLng(pos); map.panTo(pos);
-    }
-    const cuando = viaje.ubicacion_en ? ' · actualizada ' + fmtFecha(viaje.ubicacion_en) : '';
-    let vivo = wrap.querySelector('.vivo');
-    if (!vivo) {
-      vivo = document.createElement('div'); vivo.className = 'vivo';
-      vivo.style.cssText = 'font-size:12.5px;color:#1f9d57;margin-top:8px;font-weight:600;display:flex;align-items:center;gap:6px;';
-      wrap.appendChild(vivo);
-    }
-    vivo.innerHTML = '<span style="width:9px;height:9px;border-radius:50%;background:#1f9d57;display:inline-block;"></span>En vivo' + cuando;
-  }
-
-  async function refrescar() {
-    if (!codigoActual) return;
-    try {
-      const r = await fetch('/api/viajes/' + encodeURIComponent(codigoActual));
-      if (!r.ok) return;
-      const { viaje, eventos } = await r.json();
-      const badge = document.getElementById('badge');
-      const prog  = document.getElementById('progreso');
-      if (badge) badge.innerHTML = badgeHTML(viaje);
-      if (prog)  prog.innerHTML  = lineaTiempo(viaje, eventos);
-      actualizarMapa(viaje);
-    } catch (e) { /* reintenta */ }
-  }
-
-  btnBuscar.onclick = () => buscar(inputCodigo.value);
-  inputCodigo.addEventListener('keydown', e => { if (e.key === 'Enter') buscar(inputCodigo.value); });
-  document.querySelectorAll('.chip').forEach(chip => {
-    chip.addEventListener('click', () => { inputCodigo.value = chip.dataset.cod; buscar(chip.dataset.cod);
-      document.getElementById('rastrear').scrollIntoView({ behavior: 'smooth' }); });
-  });
-
-  (async () => {
-    await cargarEstados();
-    const params = new URLSearchParams(location.search);
-    const c = params.get('codigo');
-    if (c) { inputCodigo.value = c; buscar(c); }
-  })();
 </script>
 </body>
 </html>

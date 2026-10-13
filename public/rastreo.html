@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rastrear pedido | Transporte D Todo</title>
+  <meta name="description" content="Rastrea tu envío de Transporte D Todo. Ingresa tu código de seguimiento y mira el estado y la ubicación del camión en tiempo real.">
+  <meta name="theme-color" content="#004d99">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23004d99'/%3E%3Ctext x='50' y='57' font-family='sans-serif' font-size='33' font-weight='800' fill='%23ffffff' text-anchor='middle'%3EDT%3C/text%3E%3Ccircle cx='50' cy='74' r='3' fill='%23e6b73e'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    *{box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{margin:0;font-family:'Poppins',system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;background:#f4f9ff;color:#16263a;display:flex;flex-direction:column;min-height:100vh;}
+    a{color:inherit;}
+    .cta-blue{background:#1877d6;color:#fff;transition:background .18s;}
+    .cta-blue:hover{background:#004d99;}
+    .btn-outline{transition:border-color .18s,background .18s;}
+    .btn-outline:hover{border-color:#1877d6 !important;background:#f4f9ff !important;}
+    @media (max-width:520px){.buscador{flex-direction:column;}}
+  </style>
+</head>
+<body>
+
+  <!-- ===================== HEADER ===================== -->
+  <header style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid #e9eff7;">
+    <div style="max-width:1100px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;">
+      <a href="/" style="text-decoration:none;display:flex;flex-direction:column;line-height:1;gap:4px;">
+        <span style="font-size:10px;letter-spacing:5px;font-weight:600;color:#1877d6;padding-left:3px;">TRANSPORTE</span>
+        <span style="font-size:24px;font-weight:800;color:#004d99;letter-spacing:.3px;display:flex;align-items:center;gap:6px;">D Todo
+          <svg width="34" height="8" viewBox="0 0 34 8" style="display:block;">
+            <path d="M1 6 H22" stroke="#1877d6" stroke-width="1.4" stroke-dasharray="3 3" fill="none"></path>
+            <circle cx="30" cy="6" r="2.6" fill="none" stroke="#1877d6" stroke-width="1.4"></circle>
+            <circle cx="30" cy="6" r="0.9" fill="#1877d6"></circle>
+          </svg>
+        </span>
+      </a>
+      <a class="btn-outline" href="/" style="text-decoration:none;color:#004d99;font-weight:600;font-size:15px;padding:10px 20px;border-radius:11px;border:1.5px solid #cfe0f3;background:#fff;display:inline-flex;align-items:center;gap:8px;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"></path></svg>
+        Inicio
+      </a>
+    </div>
+  </header>
+
+  <!-- ===================== RASTREAR PEDIDO (único contenido, centrado) ===================== -->
+  <main style="flex:1;display:flex;align-items:flex-start;justify-content:center;padding:clamp(32px,6vw,64px) 20px;">
+    <div style="width:100%;max-width:720px;">
+      <div style="text-align:center;max-width:620px;margin:0 auto 32px;">
+        <div style="font-size:12px;font-weight:700;letter-spacing:3px;color:#1877d6;margin-bottom:12px;">SEGUIMIENTO EN LÍNEA</div>
+        <h1 style="margin:0 0 14px;font-size:clamp(28px,3.6vw,42px);font-weight:800;color:#0f2a47;letter-spacing:-0.5px;">Rastrea tu pedido</h1>
+        <p style="margin:0;font-size:17px;line-height:1.6;color:#51637a;">Ingresa tu código de seguimiento y mira el estado de tu envío y dónde va tu carga, en tiempo real.</p>
+      </div>
+
+      <div style="background:#fff;border:1px solid #eaf0f8;border-radius:22px;box-shadow:0 22px 48px -28px rgba(20,50,90,0.32);overflow:hidden;">
+        <div style="background:linear-gradient(135deg,#00356b 0%,#004d99 70%);color:#fff;padding:24px 28px;display:flex;align-items:center;gap:13px;">
+          <span style="display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:13px;background:rgba(255,255,255,0.13);flex-shrink:0;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg>
+          </span>
+          <div style="line-height:1.3;">
+            <div style="font-size:18px;font-weight:700;">Rastrea tu envío</div>
+            <div style="font-size:13.5px;color:#bcd4ee;">Escribe el código que te compartimos (por ejemplo, TRK-1001).</div>
+          </div>
+        </div>
+
+        <div style="padding:26px 28px 30px;">
+          <div class="buscador" style="display:flex;gap:10px;">
+            <input id="codigo" placeholder="Ej: TRK-1001" autocomplete="off"
+              style="flex:1;padding:15px 17px;font-size:16px;font-family:'Poppins',sans-serif;border-radius:12px;border:1.5px solid #d7e2ef;background:#fff;color:#0f2a47;">
+            <button id="btnBuscar" class="cta-blue" style="border:none;cursor:pointer;font-family:'Poppins',sans-serif;font-weight:600;font-size:16px;padding:15px 26px;border-radius:12px;box-shadow:0 12px 26px -10px rgba(24,119,214,0.5);">Rastrear</button>
+          </div>
+          <div style="font-size:13.5px;color:#8294a8;margin-top:12px;">
+            <b style="color:#51637a;font-weight:600;">¿Solo quieres probar?</b> Usa un código de ejemplo:
+            <span class="chip" data-cod="TRK-1001" style="cursor:pointer;display:inline-block;background:#e9f2fd;color:#004d99;border:1px solid #cfe0f3;padding:3px 11px;border-radius:999px;font-weight:600;font-size:13px;margin:2px 3px;">TRK-1001</span>
+            <span class="chip" data-cod="TRK-1002" style="cursor:pointer;display:inline-block;background:#e9f2fd;color:#004d99;border:1px solid #cfe0f3;padding:3px 11px;border-radius:999px;font-weight:600;font-size:13px;margin:2px 3px;">TRK-1002</span>
+            <span class="chip" data-cod="TRK-1003" style="cursor:pointer;display:inline-block;background:#e9f2fd;color:#004d99;border:1px solid #cfe0f3;padding:3px 11px;border-radius:999px;font-weight:600;font-size:13px;margin:2px 3px;">TRK-1003</span>
+          </div>
+
+          <div id="aviso" style="display:none;margin-top:18px;padding:15px 17px;border-radius:12px;background:#fdecec;color:#b3261e;font-size:14.5px;font-weight:500;"></div>
+          <div id="resultado" style="margin-top:22px;"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===================== FOOTER BÁSICO ===================== -->
+  <footer style="background:#004d99;color:#cfe0f3;padding:24px;text-align:center;font-size:13.5px;">
+    © <span id="anio"></span> Transporte D Todo ·
+    <a href="tel:+50375937814" style="color:#fff;font-weight:600;text-decoration:none;">+503 7593-7814</a> ·
+    <a href="/" style="color:#fff;font-weight:600;text-decoration:none;">Ir al inicio</a>
+  </footer>
+
+  <script>
+
+    document.getElementById('anio').textContent = new Date().getFullYear();
+
+    /* ---------- Lógica de rastreo ---------- */
+    const SVG_TRUCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 17h4V5H2v12h3"></path><path d="M20 17h2v-3.34a4 4 0 0 0-1.17-2.83L19 9h-5"></path><circle cx="7.5" cy="17.5" r="2.5"></circle><circle cx="17.5" cy="17.5" r="2.5"></circle></svg>';
+    const SVG_CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>';
+    const SVG_PIN   = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>';
+
+    const inputCodigo = document.getElementById('codigo');
+    const btnBuscar   = document.getElementById('btnBuscar');
+    const aviso       = document.getElementById('aviso');
+    const resultado   = document.getElementById('resultado');
+
+    let ESTADOS = [];
+    let codigoActual = null;
+    let refrescoTimer = null;
+    let map = null, marker = null;
+
+    function fmtFecha(s) {
+      const d = new Date(String(s).replace(' ', 'T'));
+      if (isNaN(d)) return s;
+      return d.toLocaleString('es', { dateStyle: 'medium', timeStyle: 'short' });
+    }
+
+    async function cargarEstados() {
+      try { const r = await fetch('/api/estados'); ESTADOS = (await r.json()).estados; }
+      catch (e) { ESTADOS = []; }
+    }
+
+    function detenerRefresco() {
+      if (refrescoTimer) { clearInterval(refrescoTimer); refrescoTimer = null; }
+      if (map) { map.remove(); map = null; marker = null; }
+    }
+
+    async function buscar(codigo) {
+      codigo = (codigo || '').trim().toUpperCase();
+      if (!codigo) return;
+      aviso.style.display = 'none';
+      resultado.innerHTML = '';
+      detenerRefresco();
+      codigoActual = codigo;
+
+      try {
+        const r = await fetch('/api/viajes/' + encodeURIComponent(codigo));
+        if (r.status === 404) {
+          aviso.textContent = 'No encontramos ningún envío con el código "' + codigo + '". Revisa que esté bien escrito.';
+          aviso.style.display = 'block';
+          return;
+        }
+        const { viaje, eventos } = await r.json();
+        renderCompleto(viaje, eventos);
+        refrescoTimer = setInterval(refrescar, 6000);
+      } catch (e) {
+        aviso.textContent = 'No se pudo conectar con el servidor.';
+        aviso.style.display = 'block';
+      }
+    }
+
+    function lineaTiempo(viaje, eventos) {
+      const posActual = ESTADOS.indexOf(viaje.estado_actual);
+      const porEstado = {};
+      eventos.forEach(e => { porEstado[e.estado] = e; });
+      return ESTADOS.map((nombre, i) => {
+        const hecho = i < posActual, actual = i === posActual, esUltimo = i === ESTADOS.length - 1;
+        const colorPunto = hecho ? '#1f9d57' : actual ? '#1877d6' : '#dbe3ee';
+        const sombra = actual ? 'box-shadow:0 0 0 4px rgba(24,119,214,0.18);' : '';
+        const colorLinea = hecho ? '#1f9d57' : '#dbe3ee';
+        const ev = porEstado[nombre];
+        const icono = (hecho || actual) ? '<span style="width:11px;height:11px;color:#fff;display:flex;">' + SVG_CHECK + '</span>' : '';
+        const nombreColor = (hecho || actual) ? '#0f2a47' : '#9aa8ba';
+        const nombrePeso  = (hecho || actual) ? '600' : '500';
+        return `
+          <div style="display:flex;gap:14px;">
+            <div style="width:22px;display:flex;flex-direction:column;align-items:center;">
+              <div style="width:20px;height:20px;border-radius:50%;background:${colorPunto};${sombra}display:flex;align-items:center;justify-content:center;flex-shrink:0;">${icono}</div>
+              ${esUltimo ? '' : `<div style="width:2px;flex:1;background:${colorLinea};"></div>`}
+            </div>
+            <div style="padding-bottom:18px;">
+              <div style="font-weight:${nombrePeso};color:${nombreColor};">${nombre}</div>
+              ${ev ? `<div style="font-size:12.5px;color:#8294a8;">${fmtFecha(ev.creado_en)}</div>` : ''}
+              ${ev && ev.nota ? `<div style="font-size:13.5px;color:#51637a;margin-top:2px;font-style:italic;">${ev.nota}</div>` : ''}
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    function badgeHTML(viaje) {
+      const finalizado = ESTADOS.indexOf(viaje.estado_actual) === ESTADOS.length - 1;
+      const bg = finalizado ? '#e9f7ef' : '#e9f2fd';
+      const col = finalizado ? '#1f9d57' : '#004d99';
+      const icono = finalizado ? SVG_CHECK : SVG_TRUCK;
+      return `<span style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;background:${bg};color:${col};font-weight:700;font-size:15px;">
+        <span style="width:18px;height:18px;display:flex;">${icono}</span>${viaje.estado_actual}</span>`;
+    }
+
+    function renderCompleto(viaje, eventos) {
+      resultado.innerHTML = `
+        <div style="font-size:12.5px;color:#8294a8;letter-spacing:1px;font-weight:600;">${viaje.codigo}</div>
+        <div style="font-size:22px;font-weight:800;color:#0f2a47;margin:4px 0 14px;">${viaje.origen} → ${viaje.destino}</div>
+        <div id="badge">${badgeHTML(viaje)}</div>
+        <div style="font-weight:700;color:#0f2a47;margin:24px 0 10px;display:flex;align-items:center;gap:8px;">
+          <span style="width:18px;height:18px;color:#1877d6;display:flex;">${SVG_PIN}</span> Ubicación del camión</div>
+        <div id="mapaWrap"></div>
+        <div id="progreso" style="margin:24px 0 4px;">${lineaTiempo(viaje, eventos)}</div>`;
+      actualizarMapa(viaje);
+    }
+
+    function actualizarMapa(viaje) {
+      const wrap = document.getElementById('mapaWrap');
+      if (!wrap) return;
+      const tieneUbic = typeof viaje.lat === 'number' && typeof viaje.lng === 'number';
+      const cajaSinMapa = 'padding:26px;text-align:center;color:#8294a8;background:#f5f9ff;border-radius:12px;border:1px dashed #cfe0f3;font-size:14.5px;';
+
+      if (!tieneUbic) {
+        if (map) { map.remove(); map = null; marker = null; }
+        wrap.innerHTML = '<div style="' + cajaSinMapa + '">Aún no hay ubicación compartida para este envío.</div>';
+        return;
+      }
+      if (typeof L === 'undefined') {
+        wrap.innerHTML = '<div style="' + cajaSinMapa + '">No se pudo cargar el mapa (revisa tu conexión a internet). El seguimiento del envío sigue disponible abajo.</div>';
+        return;
+      }
+      const pos = [viaje.lat, viaje.lng];
+      if (!map) {
+        wrap.innerHTML = '<div id="mapa" style="height:280px;border-radius:12px;overflow:hidden;background:#e2e8f0;"></div>';
+        map = L.map('mapa').setView(pos, 11);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap', maxZoom: 18 }).addTo(map);
+        const pinHTML = '<div style="width:34px;height:34px;border-radius:50% 50% 50% 0;background:#1877d6;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(0,0,0,.4);border:2px solid #fff;">' +
+          '<span style="transform:rotate(45deg);width:17px;height:17px;color:#fff;display:flex;">' + SVG_TRUCK + '</span></div>';
+        const icono = L.divIcon({ html: pinHTML, className: 'pin-wrap', iconSize: [34, 34], iconAnchor: [17, 34] });
+        marker = L.marker(pos, { icon: icono }).addTo(map);
+      } else {
+        marker.setLatLng(pos); map.panTo(pos);
+      }
+      const cuando = viaje.ubicacion_en ? ' · actualizada ' + fmtFecha(viaje.ubicacion_en) : '';
+      let vivo = wrap.querySelector('.vivo');
+      if (!vivo) {
+        vivo = document.createElement('div'); vivo.className = 'vivo';
+        vivo.style.cssText = 'font-size:12.5px;color:#1f9d57;margin-top:8px;font-weight:600;display:flex;align-items:center;gap:6px;';
+        wrap.appendChild(vivo);
+      }
+      vivo.innerHTML = '<span style="width:9px;height:9px;border-radius:50%;background:#1f9d57;display:inline-block;"></span>En vivo' + cuando;
+    }
+
+    async function refrescar() {
+      if (!codigoActual) return;
+      try {
+        const r = await fetch('/api/viajes/' + encodeURIComponent(codigoActual));
+        if (!r.ok) return;
+        const { viaje, eventos } = await r.json();
+        const badge = document.getElementById('badge');
+        const prog  = document.getElementById('progreso');
+        if (badge) badge.innerHTML = badgeHTML(viaje);
+        if (prog)  prog.innerHTML  = lineaTiempo(viaje, eventos);
+        actualizarMapa(viaje);
+      } catch (e) { /* reintenta */ }
+    }
+
+    btnBuscar.onclick = () => buscar(inputCodigo.value);
+    inputCodigo.addEventListener('keydown', e => { if (e.key === 'Enter') buscar(inputCodigo.value); });
+    document.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => { inputCodigo.value = chip.dataset.cod; buscar(chip.dataset.cod); });
+    });
+
+    (async () => {
+      await cargarEstados();
+      const params = new URLSearchParams(location.search);
+      const c = params.get('codigo');
+      if (c) { inputCodigo.value = c; buscar(c); }
+    })();
+  </script>
+</body>
+</html>
