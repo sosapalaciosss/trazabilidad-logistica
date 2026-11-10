@@ -86,6 +86,9 @@ body {
   flex-shrink: 0;
 }
 .marca-badge svg { width: 24px; height: 24px; }
+/* Logotipo oficial en vector (public/logo-transporte.svg). */
+.marca-img { display: block; height: 48px; width: auto; }
+.marca-logo .marca-img { height: 56px; }
 .marca-texto { display: flex; flex-direction: column; line-height: 1.05; }
 .marca-texto .m1 {
   font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
